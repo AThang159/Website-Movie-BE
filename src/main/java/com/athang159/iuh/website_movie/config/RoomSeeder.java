@@ -7,6 +7,7 @@ import com.athang159.iuh.website_movie.enums.SeatType;
 import com.athang159.iuh.website_movie.repository.SeatRepository;
 import com.athang159.iuh.website_movie.repository.TheaterRepository;
 import com.athang159.iuh.website_movie.repository.RoomRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,14 @@ import java.util.List;
 @Component
 public class RoomSeeder {
 
-    CommandLineRunner initRoomSeeder(TheaterRepository theaterRepository, RoomRepository roomRepository, SeatRepository seatRepository) {
+    @Autowired
+    TheaterRepository theaterRepository;
+    @Autowired
+    RoomRepository roomRepository;
+    @Autowired
+    SeatRepository seatRepository;
+
+    CommandLineRunner initRoomSeeder() {
         return args -> {
             List<Room> rooms = new ArrayList<>();
             Theater theater = theaterRepository.findByName("Beta Trần Quang Khải");

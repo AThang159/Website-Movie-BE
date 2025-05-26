@@ -33,13 +33,14 @@ public class Theater {
 
     @ManyToOne
     @JoinColumn(name = "theater_chain_id")
-    private TheaterChain theaterChain;
+    private Chain chain;
 
-    public Theater(String name, String address, City city, String logo, TheaterChain theaterChain) {
+    public Theater(String name, String address, City city, String logo, Chain chain) {
         this.name = name;
         this.address = address;
         this.city = city;
         this.logo = logo;
-        this.theaterChain = theaterChain;
+        this.chain = chain;
     }
+
 }

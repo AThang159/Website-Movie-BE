@@ -2,6 +2,7 @@ package com.athang159.iuh.website_movie.config;
 
 import com.athang159.iuh.website_movie.entity.Movie;
 import com.athang159.iuh.website_movie.repository.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +12,10 @@ import java.util.List;
 @Component
 public class MovieSeeder {
 
-    CommandLineRunner initMovieSeeder(MovieRepository movieRepository) {
+    @Autowired
+    MovieRepository movieRepository;
+
+    CommandLineRunner initMovieSeeder() {
         return args -> {
             movieRepository.save(new Movie(null,
                     "lat-mat-8",

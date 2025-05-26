@@ -3,6 +3,7 @@ package com.athang159.iuh.website_movie.config;
 import com.athang159.iuh.website_movie.entity.Showtime;
 import com.athang159.iuh.website_movie.enums.MovieLanguageType;
 import com.athang159.iuh.website_movie.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -12,12 +13,18 @@ import java.time.LocalTime;
 @Component
 public class ShowtimeSeeder {
 
-    CommandLineRunner initShowtimeSeeder(
-            ShowtimeRepository showtimeRepository,
-            MovieRepository movieRepository,
-            TheaterRepository theaterRepository,
-            MovieFormatRepository movieFormatRepository,
-            RoomRepository roomRepository){
+    @Autowired
+    ShowtimeRepository showtimeRepository;
+    @Autowired
+    MovieRepository movieRepository;
+    @Autowired
+    TheaterRepository theaterRepository;
+    @Autowired
+    MovieFormatRepository movieFormatRepository;
+    @Autowired
+    RoomRepository roomRepository;
+
+    CommandLineRunner initShowtimeSeeder(){
         return args -> {
             showtimeRepository.save(new Showtime(
                 movieRepository.findByMovieId("lat-mat-8"),
