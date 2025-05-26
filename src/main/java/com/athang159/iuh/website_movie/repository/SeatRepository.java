@@ -10,6 +10,5 @@ import java.util.List;
 
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, Long> {
-    List<Theater> findByTheaterRoomId(Long theaterRoomId);
-//    int countByShowtimeAndIsBookedFalse(Showtime showtime);
+    List<Theater> findByRoomId(Long roomId);
 }

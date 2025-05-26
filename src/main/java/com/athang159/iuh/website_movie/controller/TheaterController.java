@@ -4,7 +4,7 @@ import com.athang159.iuh.website_movie.dto.response.TheaterResponse;
 import com.athang159.iuh.website_movie.entity.Theater;
 import com.athang159.iuh.website_movie.mapper.TheaterMapper;
 import com.athang159.iuh.website_movie.repository.TheaterRepository;
-import com.athang159.iuh.website_movie.repository.TheaterRoomRepository;
+import com.athang159.iuh.website_movie.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +19,11 @@ public class TheaterController {
     @Autowired
     private TheaterRepository theaterRepository;
     @Autowired
-    private TheaterRoomRepository theaterRoomRepository;
+    private RoomRepository roomRepository;
 
     @Autowired
     private TheaterMapper theaterMapper;
 
-    // Lấy tất cả rạp
     @GetMapping
     public List<TheaterResponse> getAllTheaters() {
         List<Theater> theaters = theaterRepository.findAll();
@@ -32,20 +31,17 @@ public class TheaterController {
         return theaterResponses;
     }
 
-    // Lấy rạp theo id
     @GetMapping("/{id}")
     public Optional<Theater> getTheaterById(@PathVariable Long id) {
         return theaterRepository.findById(id);
     }
 
-    // Thêm mới rạp
     @PostMapping
     public Theater createTheater(@RequestBody Theater theater) {
         return theaterRepository.save(theater);
     }
 
 
-    // Cập nhật rạp
     @PutMapping("/{id}")
     public Theater updateTheater(@PathVariable Long id, @RequestBody Theater theaterDetails) {
         Theater theater = theaterRepository.findById(id)
@@ -57,7 +53,6 @@ public class TheaterController {
         return theaterRepository.save(theater);
     }
 
-    // Xóa rạp
     @DeleteMapping("/{id}")
     public void deleteTheater(@PathVariable Long id) {
         theaterRepository.deleteById(id);
@@ -65,6 +60,6 @@ public class TheaterController {
 
     @GetMapping("/{theaterId}/theater-rooms")
     public List<Theater> getTheaterRoomsByTheater(@PathVariable Long theaterId) {
-        return theaterRoomRepository.findByTheaterId(theaterId);
+        return roomRepository.findByTheaterId(theaterId);
     }
 }

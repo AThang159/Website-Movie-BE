@@ -15,17 +15,4 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     Movie findByTitle(String title);
     Movie findByMovieId(String movieId);
-
-    @Query("""
-    SELECT tc.id, tc.name, t.id, t.name
-    FROM Showtime s
-    JOIN s.theater t
-    JOIN t.theaterChain tc
-    WHERE s.movie.movieId = :movieId AND t.city = :cityName
-    GROUP BY tc.id, tc.name, t.id, t.name
-    """)
-    List<Object[]> findTheaterChainsAndTheatersByMovieAndCity(
-            @Param("movieId") String movieId,
-            @Param("cityName") String cityName
-    );
 }

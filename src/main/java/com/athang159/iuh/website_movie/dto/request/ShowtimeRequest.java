@@ -16,7 +16,7 @@ public class ShowtimeRequest {
     private LocalDate showDate;
     private LocalTime startTime;
     private Long theaterId;
-    private Long theaterRoomId;
+    private Long roomId;
     private MovieLanguageType language;
     private Long formatId;
     private int price;

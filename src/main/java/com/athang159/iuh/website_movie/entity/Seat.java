@@ -21,6 +21,6 @@ public class Seat {
     private SeatType type;
 
     @ManyToOne
-    @JoinColumn(name = "theater_room_id")
-    private TheaterRoom theaterRoom;
+    @JoinColumn(name = "room_id")
+    private Room room;
 }

@@ -5,6 +5,7 @@ import com.athang159.iuh.website_movie.dto.response.ShowtimeResponse;
 import com.athang159.iuh.website_movie.dto.response.TimeSlotResponse;
 import com.athang159.iuh.website_movie.entity.Movie;
 import com.athang159.iuh.website_movie.entity.Showtime;
+import com.athang159.iuh.website_movie.mapper.ShowtimeMapper;
 import com.athang159.iuh.website_movie.repository.MovieRepository;
 import com.athang159.iuh.website_movie.repository.ShowtimeRepository;
 import com.athang159.iuh.website_movie.service.ShowtimeService;
@@ -18,6 +19,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/showtimes")
@@ -44,17 +46,19 @@ public class ShowtimeController {
             LocalTime.of(20, 0),
             LocalTime.of(22, 0)
     );
+    @Autowired
+    private ShowtimeMapper showtimeMapper;
 
     @GetMapping("/available-time-slots")
     public List<TimeSlotResponse> getAvailableTimeSlots(
-            @RequestParam Long theaterRoomId,
+            @RequestParam Long roomId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate showDate,
             @RequestParam Long movieId) {
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new RuntimeException("Movie not found"));
         Duration movieDuration = Duration.ofMinutes(movie.getDuration());
 
-        List<Showtime> showtimes = showtimeRepository.findByTheaterRoomIdAndShowDate(theaterRoomId, showDate);
+        List<Showtime> showtimes = showtimeRepository.findByRoomIdAndShowDate(roomId, showDate);
 
         return DEFAULT_TIME_SLOTS.stream()
                 .map(candidateStart -> {
@@ -71,21 +75,24 @@ public class ShowtimeController {
                 .toList();
     }
 
+    @GetMapping("{id}")
+    public ShowtimeResponse getShowtime(@PathVariable UUID id) {
+        Showtime showtime = showtimeRepository.findById(id).orElseThrow();
+        ShowtimeResponse showtimeResponse = showtimeMapper.toShowtimeResponse(showtime);
+        return showtimeResponse;
+    }
+
     @GetMapping
     public ResponseEntity<List<ShowtimeResponse>> getShowtimes(
             @RequestParam(required = false) Long theaterId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate showDate,
             @RequestParam(required = false) String movieId,
-            @RequestParam(required = false) Long theaterRoomId
+            @RequestParam(required = false) Long roomId
     ) {
-        List<ShowtimeResponse> showtimes = showtimeService.findShowtimes(movieId, showDate, theaterId, theaterRoomId);
+        List<ShowtimeResponse> showtimes = showtimeService.findShowtimes(movieId, showDate, theaterId, roomId);
         return ResponseEntity.ok(showtimes);
     }
 
-
-    /**
-     * Tạo suất chiếu mới
-     */
     @PostMapping
     public ResponseEntity<String> createShowtime(@RequestBody ShowtimeRequest request) {
         showtimeService.createShowtime(request);

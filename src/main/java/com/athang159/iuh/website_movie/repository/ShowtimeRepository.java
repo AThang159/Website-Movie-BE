@@ -8,20 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface ShowtimeRepository extends JpaRepository<Showtime, Long>, ShowtimeRepositoryCustom {
-    List<Showtime> findByTheaterRoomIdAndShowDateOrderByStartTime(Long theaterRoomId, LocalDate showDate);
+public interface ShowtimeRepository extends JpaRepository<Showtime, UUID>, ShowtimeRepositoryCustom {
+    List<Showtime> findByRoomIdAndShowDateOrderByStartTime(Long roomId, LocalDate showDate);
 
-//    @Query("SELECT s FROM Showtime s WHERE " +
-//            "(:theaterRoomId IS NULL OR s.theaterRoom.id = :theaterRoomId) AND " +
-//            "(:showDate IS NULL OR s.showDate = :showDate) AND " +
-//            "(:theaterId IS NULL OR s.theater.id = :theaterId) AND " +
-//            "(:movieId IS NULL OR s.movie.movieId = :movieId)")
-//    List<Showtime> findByFilters(@Param("movieId") String movieId,
-//                                 @Param("showDate") LocalDate showDate,
-//                                 @Param("theaterId") Long theaterId,
-//                                 @Param("theaterRoomId") Long theaterRoomId);
-
-    List<Showtime> findByTheaterRoomIdAndShowDate(Long theaterRoomId, LocalDate showDate);
+    List<Showtime> findByRoomIdAndShowDate(Long roomId, LocalDate showDate);
 }

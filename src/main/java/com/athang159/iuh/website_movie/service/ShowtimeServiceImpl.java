@@ -22,7 +22,7 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     private ShowtimeRepository showtimeRepository;
 
     @Autowired
-    private TheaterRoomRepository theaterRoomRepository;
+    private RoomRepository roomRepository;
 
     @Autowired
     private TheaterRepository theaterRepository;
@@ -44,7 +44,7 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     public void createShowtime(ShowtimeRequest request) {
         Movie movie = movieRepository.findById(request.getMovieId())
                 .orElseThrow(() -> new RuntimeException("Movie not found"));
-        TheaterRoom room = theaterRoomRepository.findById(request.getTheaterRoomId())
+        Room room = roomRepository.findById(request.getRoomId())
                 .orElseThrow(() -> new RuntimeException("Room not found"));
         MovieFormat format = movieFormatRepository.findById(request.getFormatId())
                 .orElseThrow(() -> new RuntimeException("Format not found"));
@@ -55,7 +55,7 @@ public class ShowtimeServiceImpl implements ShowtimeService {
 
         Showtime showtime = new Showtime();
         showtime.setMovie(movie);
-        showtime.setTheaterRoom(room);
+        showtime.setRoom(room);
         showtime.setStartTime(request.getStartTime());
         showtime.setEndTime(endTime);
         showtime.setTheater(theater);
@@ -72,13 +72,13 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new RuntimeException("Movie not found"));
 
-        TheaterRoom room = theaterRoomRepository.findById(roomId)
+        Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new RuntimeException("Room not found"));
 
         int durationMinutes = movie.getDuration();
 
         List<Showtime> showtimes = showtimeRepository
-                .findByTheaterRoomIdAndShowDateOrderByStartTime(roomId, showDate);
+                .findByRoomIdAndShowDateOrderByStartTime(roomId, showDate);
 
         List<TimeSlotResponse> availableSlots = new ArrayList<>();
 

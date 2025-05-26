@@ -14,7 +14,4 @@ public interface TheaterRepository extends JpaRepository<Theater, Long> {
     boolean existsByName(String name);
 
     Theater findByName(String name);
-
-    List<Theater> findByTheaterChainId(Long theaterChainId);
-
 }

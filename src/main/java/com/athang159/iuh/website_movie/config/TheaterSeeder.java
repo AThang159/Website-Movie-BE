@@ -1,13 +1,10 @@
 package com.athang159.iuh.website_movie.config;
 
 import com.athang159.iuh.website_movie.entity.Theater;
-import com.athang159.iuh.website_movie.entity.TheaterChain;
 import com.athang159.iuh.website_movie.repository.CityRepository;
 import com.athang159.iuh.website_movie.repository.TheaterChainRepository;
 import com.athang159.iuh.website_movie.repository.TheaterRepository;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TheaterRoomResponse {
+public class SeatResponse {
     private Long id;
-    private String name;
-    private LocalTime availableStartTime;
+    private String seatCode;
+    private String type;
+    private boolean isBooked;
 }

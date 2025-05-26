@@ -17,7 +17,7 @@ public class ShowtimeSeeder {
             MovieRepository movieRepository,
             TheaterRepository theaterRepository,
             MovieFormatRepository movieFormatRepository,
-            TheaterRoomRepository theaterRoomRepository){
+            RoomRepository roomRepository){
         return args -> {
             showtimeRepository.save(new Showtime(
                 movieRepository.findByMovieId("lat-mat-8"),
@@ -27,7 +27,7 @@ public class ShowtimeSeeder {
                 MovieLanguageType.LONG_TIENG_VIET,
                 50000,
                 theaterRepository.findById(1L).orElseThrow(),
-                theaterRoomRepository.findById(1L).orElseThrow()));
+                roomRepository.findById(1L).orElseThrow()));
 
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieId("lat-mat-8"),
@@ -37,7 +37,7 @@ public class ShowtimeSeeder {
                     MovieLanguageType.LONG_TIENG_VIET,
                     50000,
                     theaterRepository.findById(1L).orElseThrow(),
-                    theaterRoomRepository.findById(1L).orElseThrow()));
+                    roomRepository.findById(1L).orElseThrow()));
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieId("tham-tu-kien"),
                     LocalDate.of(2025, 5, 26),
@@ -46,7 +46,7 @@ public class ShowtimeSeeder {
                     MovieLanguageType.LONG_TIENG_VIET,
                     75000,
                     theaterRepository.findById(1L).orElseThrow(),
-                    theaterRoomRepository.findById(2L).orElseThrow()));
+                    roomRepository.findById(2L).orElseThrow()));
 
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieId("shin-cau-be"),
@@ -56,7 +56,7 @@ public class ShowtimeSeeder {
                     MovieLanguageType.LONG_TIENG_VIET,
                     65000,
                     theaterRepository.findById(1L).orElseThrow(),
-                    theaterRoomRepository.findById(4L).orElseThrow()));
+                    roomRepository.findById(4L).orElseThrow()));
 
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieId("lat-mat-8"),
@@ -66,7 +66,7 @@ public class ShowtimeSeeder {
                     MovieLanguageType.LONG_TIENG_VIET,
                     80000,
                     theaterRepository.findById(1L).orElseThrow(),
-                    theaterRoomRepository.findById(1L).orElseThrow()));
+                    roomRepository.findById(1L).orElseThrow()));
 
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieId("tham-tu-kien"),
@@ -76,7 +76,7 @@ public class ShowtimeSeeder {
                     MovieLanguageType.LONG_TIENG_VIET,
                     90000,
                     theaterRepository.findById(1L).orElseThrow(),
-                    theaterRoomRepository.findById(3L).orElseThrow()));
+                    roomRepository.findById(3L).orElseThrow()));
 
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieId("shin-cau-be"),
@@ -86,7 +86,7 @@ public class ShowtimeSeeder {
                     MovieLanguageType.LONG_TIENG_VIET,
                     50000,
                     theaterRepository.findById(1L).orElseThrow(),
-                    theaterRoomRepository.findById(1L).orElseThrow()));
+                    roomRepository.findById(1L).orElseThrow()));
 
         };
     }

@@ -12,22 +12,22 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TheaterRoom {
+public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String theaterRoomId;
+    private String roomId;
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "theaterRoom")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "room")
     private List<Seat> seats = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "theater_id")
     private Theater theater;
 
-    public TheaterRoom(String theaterRoomId, String name, Theater theater) {
-        this.theaterRoomId = theaterRoomId;
+    public Room(String roomId, String name, Theater theater) {
+        this.roomId = roomId;
         this.name = name;
         this.theater = theater;
     }

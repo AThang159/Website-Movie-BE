@@ -27,7 +27,7 @@ public class Theater {
     private City city;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "theater")
-    private List<TheaterRoom> rooms = new ArrayList<>();
+    private List<Room> rooms = new ArrayList<>();
 
     private String logo;
 

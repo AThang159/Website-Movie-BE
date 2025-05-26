@@ -3,9 +3,6 @@ package com.athang159.iuh.website_movie.config;
 import com.athang159.iuh.website_movie.entity.Movie;
 import com.athang159.iuh.website_movie.repository.MovieRepository;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;

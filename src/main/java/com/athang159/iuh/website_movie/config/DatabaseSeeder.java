@@ -13,7 +13,7 @@ public class DatabaseSeeder {
     private final CitySeeder citySeeder;
     private final MovieFormatSeeder movieFormatSeeder;
     private final TheaterChainSeeder theaterChainSeeder;
-    private final TheaterRoomSeeder theaterRoomSeeder;
+    private final RoomSeeder roomSeeder;
     private final MovieSeeder movieSeeder;
     private final TheaterSeeder theaterSeeder;
     private final ShowtimeSeeder showtimeSeeder;
@@ -23,7 +23,7 @@ public class DatabaseSeeder {
             CitySeeder citySeeder,
             MovieFormatSeeder movieFormatSeeder,
             TheaterChainSeeder theaterChainSeeder,
-            TheaterRoomSeeder theaterRoomSeeder,
+            RoomSeeder roomSeeder,
             MovieSeeder movieSeeder,
             TheaterSeeder theaterSeeder,
             ShowtimeSeeder showtimeSeeder,
@@ -31,7 +31,7 @@ public class DatabaseSeeder {
         this.citySeeder = citySeeder;
         this.movieFormatSeeder = movieFormatSeeder;
         this.theaterChainSeeder = theaterChainSeeder;
-        this.theaterRoomSeeder = theaterRoomSeeder;
+        this.roomSeeder = roomSeeder;
         this.movieSeeder = movieSeeder;
         this.theaterSeeder = theaterSeeder;
         this.showtimeSeeder = showtimeSeeder;
@@ -42,7 +42,7 @@ public class DatabaseSeeder {
     CommandLineRunner runAllSeeders(
             CityRepository cityRepository,
             MovieFormatRepository movieFormatRepository,
-            TheaterRoomRepository theaterRoomRepository,
+            RoomRepository roomRepository,
             MovieRepository movieRepository,
             TheaterChainRepository theaterChainRepository,
             TheaterRepository theaterRepository,
@@ -54,9 +54,9 @@ public class DatabaseSeeder {
             movieFormatSeeder.initMovieFormatSeeder(movieFormatRepository).run(args);
             theaterChainSeeder.initTheaterChainSeeder(theaterChainRepository).run(args);
             theaterSeeder.initTheaterSeeder(theaterRepository, cityRepository, theaterChainRepository).run(args);
-            theaterRoomSeeder.initTheaterRoomSeeder(theaterRepository, theaterRoomRepository, seatRepository).run(args);
+            roomSeeder.initRoomSeeder(theaterRepository, roomRepository, seatRepository).run(args);
             movieSeeder.initMovieSeeder(movieRepository).run(args);
-            showtimeSeeder.initShowtimeSeeder(showtimeRepository, movieRepository, theaterRepository, movieFormatRepository, theaterRoomRepository).run(args);
+            showtimeSeeder.initShowtimeSeeder(showtimeRepository, movieRepository, theaterRepository, movieFormatRepository, roomRepository).run(args);
             userSeeder.initUserSeeder(userRepository).run(args);
         };
     }

@@ -1,16 +1,16 @@
 package com.athang159.iuh.website_movie.entity;
 
 import com.athang159.iuh.website_movie.enums.MovieLanguageType;
-import com.athang159.iuh.website_movie.enums.TimeSlot;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -18,8 +18,13 @@ import java.util.List;
 @AllArgsConstructor
 public class Showtime {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
@@ -45,8 +50,8 @@ public class Showtime {
     private Theater theater;
 
     @ManyToOne
-    @JoinColumn(name = "theater_room_id")
-    private TheaterRoom theaterRoom;
+    @JoinColumn(name = "room_id")
+    private Room room;
 
     @OneToMany(mappedBy = "showtime")
     private List<SeatStatus> seatStatuses;
@@ -58,7 +63,7 @@ public class Showtime {
                     MovieLanguageType language,
                     int price,
                     Theater theater,
-                    TheaterRoom theaterRoom) {
+                    Room room) {
         this.movie = movie;
         this.showDate = showDate;
         this.startTime = startTime;
@@ -67,7 +72,7 @@ public class Showtime {
         this.language = language;
         this.price = price;
         this.theater = theater;
-        this.theaterRoom = theaterRoom;
+        this.room = room;
     }
 }
 
