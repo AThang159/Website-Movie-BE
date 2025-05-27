@@ -1,7 +1,14 @@
 package com.athang159.iuh.website_movie.service;
 
-import org.springframework.stereotype.Service;
+import com.athang159.iuh.website_movie.dto.response.RoomResponse;
+import com.athang159.iuh.website_movie.dto.response.TheaterResponse;
+import com.athang159.iuh.website_movie.entity.Theater;
 
-@Service
-public class TheaterService {
+import java.util.List;
+
+public interface TheaterService {
+    TheaterResponse getTheaterById(Long id);
+    List<TheaterResponse> getAllTheaters();
+    void deleteTheaterById(Long id);
+    List<RoomResponse> getAllRoomsByTheaterId(Long id);
 }

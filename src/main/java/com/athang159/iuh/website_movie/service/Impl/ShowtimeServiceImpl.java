@@ -1,10 +1,11 @@
-package com.athang159.iuh.website_movie.service;
+package com.athang159.iuh.website_movie.service.Impl;
 
 import com.athang159.iuh.website_movie.dto.request.ShowtimeRequest;
 import com.athang159.iuh.website_movie.dto.response.*;
 import com.athang159.iuh.website_movie.entity.*;
 import com.athang159.iuh.website_movie.mapper.ShowtimeMapper;
 import com.athang159.iuh.website_movie.repository.*;
+import com.athang159.iuh.website_movie.service.ShowtimeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -106,10 +108,17 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     }
 
     @Override
-    public List<ShowtimeResponse> findShowtimes(String movieId, LocalDate showDate, Long theaterId, Long theaterRoomId) {
-        List<Showtime> showtimes = showtimeRepository.findByFilters(movieId, showDate, theaterId, theaterRoomId);
+    public List<ShowtimeResponse> findShowtimes(String movieId, LocalDate showDate, Long theaterId, Long roomId) {
+        List<Showtime> showtimes = showtimeRepository.findByFilters(movieId, showDate, theaterId, roomId);
         List<ShowtimeResponse> showtimesResponses = showtimeMapper.toShowtimeResponses(showtimes);
 
         return showtimesResponses;
+    }
+
+    @Override
+    public ShowtimeResponse findShowtime(UUID id){
+        Showtime showtime = showtimeRepository.findById(id).orElseThrow();
+        ShowtimeResponse showtimeResponse = showtimeMapper.toShowtimeResponse(showtime);
+        return showtimeResponse;
     }
 }

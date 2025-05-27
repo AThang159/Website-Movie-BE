@@ -1,10 +1,9 @@
 package com.athang159.iuh.website_movie.controller;
 
 import com.athang159.iuh.website_movie.dto.response.RoomResponse;
-import com.athang159.iuh.website_movie.entity.Room;
-import com.athang159.iuh.website_movie.mapper.RoomMapper;
-import com.athang159.iuh.website_movie.repository.RoomRepository;
+import com.athang159.iuh.website_movie.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,14 +12,10 @@ import org.springframework.web.bind.annotation.*;
 public class RoomController {
 
     @Autowired
-    private RoomRepository roomRepository;
-    @Autowired
-    private RoomMapper roomMapper;
+    RoomService roomService;
 
     @GetMapping("/{roomId}")
-    public RoomResponse getRoom(@PathVariable Long roomId) {
-        Room room = roomRepository.findById(roomId).orElseThrow();
-        RoomResponse roomResponse = roomMapper.toRoomResponse(room);
-        return roomResponse;
+    public ResponseEntity<RoomResponse> getRoomById(@PathVariable Long roomId) {
+        return ResponseEntity.ok(roomService.getRoomById(roomId));
     }
 }

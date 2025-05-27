@@ -2,52 +2,38 @@
 package com.athang159.iuh.website_movie.controller;
 
 import com.athang159.iuh.website_movie.dto.response.MovieResponse;
-import com.athang159.iuh.website_movie.entity.Movie;
-import com.athang159.iuh.website_movie.mapper.MovieMapper;
-import com.athang159.iuh.website_movie.repository.MovieRepository;
+import com.athang159.iuh.website_movie.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/movies")
 @CrossOrigin(origins = "*")
 public class MovieController {
-
     @Autowired
-    private MovieRepository movieRepo;
-
-    @Autowired
-    private MovieMapper movieMapper;
+    MovieService movieService;
 
     @GetMapping
-    public List<Movie> getMovies() {
-        return movieRepo.findAll();
+    public ResponseEntity<List<MovieResponse>> getAllMovies() {
+        return ResponseEntity.ok(movieService.getAllMovies());
     }
 
     @GetMapping("/{movieId}")
-    public Movie getMovieByMovieId(@PathVariable String movieId) {
-        return movieRepo.findByMovieId(movieId);
-    }
+    public ResponseEntity<MovieResponse> getMovieByMovieId(@PathVariable String movieId) {
 
-    @PostMapping
-    public Movie addMovie(@RequestBody Movie movie) {
-        return movieRepo.save(movie);
+        return ResponseEntity.ok(movieService.getMovieByMovieId(movieId));
     }
 
     @GetMapping("/now-showing")
-    public List<MovieResponse> getNowShowingMovies() {
-        LocalDate today = LocalDate.now();
-        List<Movie> movies = movieRepo.findByReleaseDateLessThanEqual(today);
-        return movieMapper.toMovieResponses(movies);
+    public ResponseEntity<List<MovieResponse>> getNowShowingMovies() {
+        return ResponseEntity.ok(movieService.getNowShowingMovies());
     }
 
     @GetMapping("/coming-soon")
-    public List<MovieResponse> getComingSoonMovies() {
-        LocalDate today = LocalDate.now();
-        List<Movie> movies = movieRepo.findByReleaseDateAfter(today);
-        return movieMapper.toMovieResponses(movies);
+    public ResponseEntity<List<MovieResponse>> getComingSoonMovies() {
+        return ResponseEntity.ok(movieService.getComingSoonMovies());
     }
 }

@@ -30,56 +30,17 @@ public class ShowtimeController {
     @Autowired
     private ShowtimeService showtimeService;
 
-    @Autowired
-    private ShowtimeRepository showtimeRepository;
-
-    @Autowired
-    private MovieRepository movieRepository;
-
-    public List<LocalTime> DEFAULT_TIME_SLOTS = List.of(
-            LocalTime.of(8, 0),
-            LocalTime.of(10, 0),
-            LocalTime.of(12, 0),
-            LocalTime.of(14, 0),
-            LocalTime.of(16, 0),
-            LocalTime.of(18, 0),
-            LocalTime.of(20, 0),
-            LocalTime.of(22, 0)
-    );
-    @Autowired
-    private ShowtimeMapper showtimeMapper;
-
     @GetMapping("/available-time-slots")
-    public List<TimeSlotResponse> getAvailableTimeSlots(
+    public ResponseEntity<List<TimeSlotResponse>> getAvailableTimeSlots(
             @RequestParam Long roomId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate showDate,
             @RequestParam Long movieId) {
-        Movie movie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new RuntimeException("Movie not found"));
-        Duration movieDuration = Duration.ofMinutes(movie.getDuration());
-
-        List<Showtime> showtimes = showtimeRepository.findByRoomIdAndShowDate(roomId, showDate);
-
-        return DEFAULT_TIME_SLOTS.stream()
-                .map(candidateStart -> {
-                    LocalTime candidateEnd = candidateStart.plus(movieDuration);
-                    boolean hasConflict = showtimes.stream().anyMatch(existing -> {
-                        LocalTime existingStart = existing.getStartTime();
-                        LocalTime existingEnd = existingStart.plusMinutes(existing.getMovie().getDuration());
-                        // Kiểm tra trùng giờ
-                        return candidateStart.isBefore(existingEnd) && candidateEnd.isAfter(existingStart);
-                    });
-
-                    return new TimeSlotResponse(candidateStart, !hasConflict);
-                })
-                .toList();
+        return ResponseEntity.ok(showtimeService.getAvailableTimeSlots(roomId, showDate, movieId));
     }
 
     @GetMapping("{id}")
-    public ShowtimeResponse getShowtime(@PathVariable UUID id) {
-        Showtime showtime = showtimeRepository.findById(id).orElseThrow();
-        ShowtimeResponse showtimeResponse = showtimeMapper.toShowtimeResponse(showtime);
-        return showtimeResponse;
+    public ResponseEntity<ShowtimeResponse> getShowtime(@PathVariable UUID id) {
+        return ResponseEntity.ok(showtimeService.findShowtime(id));
     }
 
     @GetMapping

@@ -1,7 +1,6 @@
 package com.athang159.iuh.website_movie.repository;
 
 import com.athang159.iuh.website_movie.entity.Showtime;
-import com.athang159.iuh.website_movie.service.ShowtimeServiceImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
