@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SeatResponse {
+public class SeatStatusResponse {
     private Long id;
-    private String row;
-    private int columnIndex;
-    private String seatCode;
-    private String type;
+    private UUID showtimeId;
+    private Long bookingDetailId;
+    private SeatResponse seat;
 }

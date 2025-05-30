@@ -14,8 +14,14 @@ public class RoomController {
     @Autowired
     RoomService roomService;
 
-    @GetMapping("/{roomId}")
+    @GetMapping("/{roomId}/seats")
     public ResponseEntity<RoomResponse> getRoomById(@PathVariable Long roomId) {
         return ResponseEntity.ok(roomService.getRoomById(roomId));
+    }
+
+    @GetMapping("/{roomId}/name")
+    public ResponseEntity<String> getRoomByName(@PathVariable Long roomId) {
+        String name = roomService.getRoomById(roomId).getName();
+        return ResponseEntity.ok(name);
     }
 }

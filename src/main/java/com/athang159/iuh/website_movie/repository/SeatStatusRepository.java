@@ -6,8 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.UUID;
+
 @Repository
 public interface SeatStatusRepository extends JpaRepository<SeatStatus, Long> {
-    @Query("SELECT COUNT(s) FROM SeatStatus s WHERE s.showtime.id = :showtimeId AND s.isBooked = true")
-    long countBookedSeats(@Param("showtimeId") Long showtimeId);
+    List<SeatStatus> findAllByShowtimeId(UUID showtimeId);
+    boolean existsByShowtimeIdAndSeatId(UUID showtimeId, Long seatId);
 }

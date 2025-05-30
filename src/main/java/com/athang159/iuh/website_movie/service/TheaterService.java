@@ -11,4 +11,6 @@ public interface TheaterService {
     List<TheaterResponse> getAllTheaters();
     void deleteTheaterById(Long id);
     List<RoomResponse> getAllRoomsByTheaterId(Long id);
+
+    String getTheaterName(Long id);
 }

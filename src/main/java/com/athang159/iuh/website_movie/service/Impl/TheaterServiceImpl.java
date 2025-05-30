@@ -51,4 +51,10 @@ public class TheaterServiceImpl implements TheaterService {
         List<RoomResponse> roomResponses = roomMapper.toRoomResponse(rooms);
         return roomResponses;
     }
+
+    @Override
+    public String getTheaterName(Long id){
+        Theater theater = theaterRepository.findById(id).orElseThrow();
+        return theater.getName();
+    }
 }

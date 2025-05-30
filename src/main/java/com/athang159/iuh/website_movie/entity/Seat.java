@@ -15,7 +15,8 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String seatCode;
+    private String row;
+    private int columnIndex;
 
     @Enumerated(EnumType.STRING)
     private SeatType type;

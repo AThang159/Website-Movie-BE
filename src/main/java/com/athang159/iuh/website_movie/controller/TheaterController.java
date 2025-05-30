@@ -36,4 +36,9 @@ public class TheaterController {
     public ResponseEntity<List<RoomResponse>> getAllRoomsByTheaterId(@PathVariable Long theaterId) {
         return ResponseEntity.ok(theaterService.getAllRoomsByTheaterId(theaterId));
     }
+
+    @GetMapping("{theaterId}/name")
+    public ResponseEntity<String> getTheaterName(@PathVariable Long theaterId) {
+        return ResponseEntity.ok(theaterService.getTheaterName(theaterId));
+    }
 }

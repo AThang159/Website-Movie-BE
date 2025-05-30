@@ -18,8 +18,8 @@ public class BookingDetail {
     @JoinColumn(name = "booking_id")
     private Booking booking;
 
-    @ManyToOne
-    @JoinColumn(name = "seat_id")
-    private Seat seat;
+    @OneToOne
+    @JoinColumn(name = "seat_status_id")
+    private SeatStatus seatStatus;
 }
 

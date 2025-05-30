@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = SeatMapper.class)
 public interface RoomMapper {
     @Mapping(source = "seats", target = "seats")
     RoomResponse toRoomResponse(Room room);

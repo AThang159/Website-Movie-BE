@@ -27,6 +27,8 @@ public class DatabaseSeeder {
     private ShowtimeSeeder showtimeSeeder;
     @Autowired
     private UserSeeder userSeeder;
+    @Autowired
+    private SeatStatusSeeder seatStatusSeeder;
 
     @Bean
     CommandLineRunner runAllSeeders() {
@@ -38,6 +40,7 @@ public class DatabaseSeeder {
             roomSeeder.initRoomSeeder().run(args);
             movieSeeder.initMovieSeeder().run(args);
             showtimeSeeder.initShowtimeSeeder().run(args);
+            seatStatusSeeder.initSeatStatusSeeder().run(args);
             userSeeder.initUserSeeder().run(args);
         };
     }
