@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = SeatMapper.class)
 public interface SeatStatusMapper {
     @Mapping(source = "showtime.id", target = "showtimeId")
-    @Mapping(source = "bookingDetail.id", target = "bookingDetailId")
+    @Mapping(source = "ticket.id", target = "ticketId")
     SeatStatusResponse toSeatResponse(SeatStatus seatStatus);
     List<SeatStatusResponse> toSeatResponses(List<SeatStatus> seatStatuses);
 }

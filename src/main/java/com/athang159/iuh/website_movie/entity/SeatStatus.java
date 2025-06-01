@@ -23,5 +23,5 @@ public class SeatStatus {
     private Seat seat;
 
     @OneToOne(mappedBy = "seatStatus")
-    private BookingDetail bookingDetail;
+    private Ticket ticket;
 }

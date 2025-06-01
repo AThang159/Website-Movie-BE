@@ -4,14 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class SeatStatusResponse {
+@NoArgsConstructor
+public class TicketResponse {
     private Long id;
-    private UUID showtimeId;
-    private String ticketId;
-    private SeatResponse seat;
+    private SeatStatusResponse seatStatus;
 }
