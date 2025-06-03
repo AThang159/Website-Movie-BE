@@ -1,6 +1,7 @@
 package com.athang159.iuh.website_movie.controller;
 
 import com.athang159.iuh.website_movie.dto.request.BookingCreationRequest;
+import com.athang159.iuh.website_movie.dto.response.BookingDetailResponse;
 import com.athang159.iuh.website_movie.dto.response.BookingResponse;
 import com.athang159.iuh.website_movie.entity.Booking;
 import com.athang159.iuh.website_movie.service.BookingService;
@@ -112,11 +113,11 @@ public class PaymentController {
 
         if (myHash.equalsIgnoreCase(vnp_SecureHash)) {
             if ("00".equals(responseCode)) {
-                BookingResponse bookingResponse = null;
+                BookingDetailResponse bookingDetailResponse = null;
                 if (bookingCreationRequest != null) {
-                    bookingResponse = bookingService.createBooking(bookingCreationRequest);
+                    bookingDetailResponse = bookingService.createBooking(bookingCreationRequest);
                 }
-                return new RedirectView(href + "/thong-tin-ve/" + bookingResponse.getBookingCode());
+                return new RedirectView(href + "/thong-tin-ve/" + bookingDetailResponse.getBookingCode());
             } else {
                 return new RedirectView(href + "/dat-ve?status=fail");
             }

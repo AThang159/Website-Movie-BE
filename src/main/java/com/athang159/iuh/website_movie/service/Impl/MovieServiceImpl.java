@@ -55,4 +55,9 @@ public class MovieServiceImpl implements MovieService {
         List<MovieResponse> movieResponses = movieMapper.toMovieResponses(movies);
         return movieResponses;
     }
+
+    @Override
+    public Long countMovies(){
+        return movieRepository.count();
+    }
 }

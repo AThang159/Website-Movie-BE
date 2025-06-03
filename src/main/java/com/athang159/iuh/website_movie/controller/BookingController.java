@@ -1,6 +1,7 @@
 package com.athang159.iuh.website_movie.controller;
 
 import com.athang159.iuh.website_movie.dto.request.BookingCreationRequest;
+import com.athang159.iuh.website_movie.dto.response.BookingDetailResponse;
 import com.athang159.iuh.website_movie.dto.response.BookingResponse;
 import com.athang159.iuh.website_movie.entity.Booking;
 import com.athang159.iuh.website_movie.service.BookingService;
@@ -28,7 +29,7 @@ public class BookingController {
     }
 
     @GetMapping("/{bookingCode}")
-    public ResponseEntity<BookingResponse> getBooking(@PathVariable String bookingCode) {
+    public ResponseEntity<BookingDetailResponse> getBooking(@PathVariable String bookingCode) {
         return ResponseEntity.ok(bookingService.getBookingByCode(bookingCode));
     }
 }

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,6 +14,5 @@ public class TheaterResponse {
     private Long id;
     private String name;
     private String address;
-    private Chain chain;
-    private String cityName;
+    private CityResponse city;
 }

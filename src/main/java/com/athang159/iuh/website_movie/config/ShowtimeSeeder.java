@@ -28,7 +28,7 @@ public class ShowtimeSeeder {
         return args -> {
             showtimeRepository.save(new Showtime(
                 movieRepository.findByMovieId("lat-mat-8"),
-                LocalDate.of(2025, 6, 1),
+                LocalDate.of(2025, 6, 3),
                 LocalTime.of(10, 0),
                 movieFormatRepository.findByName("2D"),
                 MovieLanguageType.LONG_TIENG_VIET,
@@ -38,7 +38,7 @@ public class ShowtimeSeeder {
 
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieId("lat-mat-8"),
-                    LocalDate.of(2025, 6, 1),
+                LocalDate.of(2025, 6, 3),
                     LocalTime.of(12, 0),
                     movieFormatRepository.findByName("2D"),
                     MovieLanguageType.LONG_TIENG_VIET,
@@ -47,7 +47,7 @@ public class ShowtimeSeeder {
                     roomRepository.findById(1L).orElseThrow()));
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieId("tham-tu-kien"),
-                    LocalDate.of(2025, 6, 1),
+                LocalDate.of(2025, 6, 3),
                     LocalTime.of(14, 0),
                     movieFormatRepository.findByName("2D"),
                     MovieLanguageType.LONG_TIENG_VIET,
@@ -57,7 +57,7 @@ public class ShowtimeSeeder {
 
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieId("shin-cau-be"),
-                    LocalDate.of(2025, 6, 1),
+                LocalDate.of(2025, 6, 3),
                     LocalTime.of(16, 0),
                     movieFormatRepository.findByName("2D"),
                     MovieLanguageType.LONG_TIENG_VIET,
@@ -67,7 +67,7 @@ public class ShowtimeSeeder {
 
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieId("lat-mat-8"),
-                    LocalDate.of(2025, 6, 1),
+                LocalDate.of(2025, 6, 3),
                     LocalTime.of(18, 0),
                     movieFormatRepository.findByName("2D"),
                     MovieLanguageType.LONG_TIENG_VIET,
@@ -77,7 +77,7 @@ public class ShowtimeSeeder {
 
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieId("tham-tu-kien"),
-                    LocalDate.of(2025, 6, 1),
+                LocalDate.of(2025, 6, 3),
                     LocalTime.of(20, 0),
                     movieFormatRepository.findByName("2D"),
                     MovieLanguageType.LONG_TIENG_VIET,
@@ -87,7 +87,7 @@ public class ShowtimeSeeder {
 
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieId("shin-cau-be"),
-                    LocalDate.of(2025, 6, 1),
+                LocalDate.of(2025, 6, 3),
                     LocalTime.of(12, 0),
                     movieFormatRepository.findByName("2D"),
                     MovieLanguageType.LONG_TIENG_VIET,

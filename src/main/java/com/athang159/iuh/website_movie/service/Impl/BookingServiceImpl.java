@@ -1,6 +1,7 @@
 package com.athang159.iuh.website_movie.service.Impl;
 
 import com.athang159.iuh.website_movie.dto.request.BookingCreationRequest;
+import com.athang159.iuh.website_movie.dto.response.BookingDetailResponse;
 import com.athang159.iuh.website_movie.dto.response.BookingResponse;
 import com.athang159.iuh.website_movie.entity.Booking;
 import com.athang159.iuh.website_movie.entity.Ticket;
@@ -32,7 +33,7 @@ public class BookingServiceImpl implements BookingService {
     private BookingMapper bookingMapper;
 
     @Override
-    public BookingResponse createBooking(BookingCreationRequest bookingCreationRequest){
+    public BookingDetailResponse createBooking(BookingCreationRequest bookingCreationRequest){
         Booking booking = new Booking();
         String bookingCode = "BK-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
 
@@ -72,19 +73,25 @@ public class BookingServiceImpl implements BookingService {
         booking.setTickets(details);
         booking.setTotalPrice(total);
         bookingRepository.save(booking);
-        BookingResponse bookingResponse = bookingMapper.toBookingResponse(booking);
-        return bookingResponse;
+        BookingDetailResponse bookingDetailResponse = bookingMapper.toBookingDetailResponse(booking);
+        return bookingDetailResponse;
     }
 
     @Override
-    public BookingResponse getBookingByCode(String bookingCode){
+    public BookingDetailResponse getBookingByCode(String bookingCode){
         Booking booking = bookingRepository.findBookingByBookingCode(bookingCode);
-        return bookingMapper.toBookingResponse(booking);
+        return bookingMapper.toBookingDetailResponse(booking);
     }
 
     @Override
     public List<BookingResponse> getAllBookings(){
         List<Booking> bookings = bookingRepository.findAll();
         return bookingMapper.toBookingResponses(bookings);
+    }
+
+    @Override
+    public Long countBookings(){
+        Long count = bookingRepository.count();
+        return count;
     }
 }

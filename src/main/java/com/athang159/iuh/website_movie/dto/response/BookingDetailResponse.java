@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookingResponse {
+public class BookingDetailResponse {
     private Long id;
     private String bookingCode;
     private UserResponse user;
@@ -22,5 +22,5 @@ public class BookingResponse {
     private Double serviceFee;
     private Double amount;
     private String paymentMethod;
-    private int ticketTotal;
+    private List<TicketResponse> tickets;
 }

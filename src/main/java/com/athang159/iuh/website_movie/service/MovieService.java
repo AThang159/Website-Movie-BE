@@ -10,4 +10,5 @@ public interface MovieService {
     MovieResponse getMovieByMovieId(String movieId);
     List<MovieResponse> getNowShowingMovies();
     List<MovieResponse> getComingSoonMovies();
+    Long countMovies();
 }

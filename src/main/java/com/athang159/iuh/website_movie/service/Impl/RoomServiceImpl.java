@@ -1,5 +1,6 @@
 package com.athang159.iuh.website_movie.service.Impl;
 
+import com.athang159.iuh.website_movie.dto.response.RoomDetailResponse;
 import com.athang159.iuh.website_movie.dto.response.RoomResponse;
 import com.athang159.iuh.website_movie.entity.Room;
 import com.athang159.iuh.website_movie.mapper.RoomMapper;
@@ -16,9 +17,9 @@ public class RoomServiceImpl implements RoomService {
     RoomMapper roomMapper;
 
     @Override
-    public RoomResponse getRoomById(Long id) {
+    public RoomDetailResponse getRoomById(Long id) {
         Room room = roomRepository.findById(id).orElseThrow();
-        RoomResponse roomResponse = roomMapper.toRoomResponse(room);
-        return roomResponse;
+        RoomDetailResponse roomDetailResponse = roomMapper.toRoomDetailResponse(room);
+        return roomDetailResponse;
     }
 }

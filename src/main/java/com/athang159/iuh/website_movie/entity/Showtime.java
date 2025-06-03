@@ -37,7 +37,7 @@ public class Showtime {
     private LocalTime endTime;
 
     @ManyToOne
-    @JoinColumn(name = "movie_format_id")
+    @JoinColumn(name = "format_id")
     private MovieFormat format;
 
     @Enumerated(EnumType.STRING)

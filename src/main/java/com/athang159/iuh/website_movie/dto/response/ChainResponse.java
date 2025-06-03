@@ -9,9 +9,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TheaterChainResponse {
+public class ChainResponse {
     private Long id;
     private String name;
-    private List<TheaterResponse> theaters;
 }
 

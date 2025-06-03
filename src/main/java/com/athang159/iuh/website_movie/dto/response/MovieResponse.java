@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class MovieResponse {
+    private Long id;
     private String movieId;
     private String title;
     private String englishTitle;

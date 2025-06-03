@@ -12,7 +12,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShowtimeResponse {
+public class ShowtimeDetailResponse {
     private UUID id;
     private MovieResponse movie;
     private LocalDate showDate;
@@ -24,6 +24,4 @@ public class ShowtimeResponse {
     private MovieLanguageType language;
     private MovieFormatResponse format;
     private int price;
-    private int seatsAvailable;
-    private int seatsTotal;
 }

@@ -1,6 +1,7 @@
 package com.athang159.iuh.website_movie.service.Impl;
 
 import com.athang159.iuh.website_movie.dto.response.RoomResponse;
+import com.athang159.iuh.website_movie.dto.response.TheaterDetailResponse;
 import com.athang159.iuh.website_movie.dto.response.TheaterResponse;
 import com.athang159.iuh.website_movie.entity.Room;
 import com.athang159.iuh.website_movie.entity.Theater;
@@ -27,10 +28,10 @@ public class TheaterServiceImpl implements TheaterService {
     private RoomMapper roomMapper;
 
     @Override
-    public TheaterResponse getTheaterById(Long id) {
+    public TheaterDetailResponse getTheaterById(Long id) {
         Theater theater = theaterRepository.findById(id).orElseThrow();
-        TheaterResponse theaterResponse = theaterMapper.toTheaterResponse(theater);
-        return theaterResponse;
+        TheaterDetailResponse theaterDetailResponse = theaterMapper.toTheaterDetailResponse(theater);
+        return theaterDetailResponse;
     }
 
     @Override
@@ -56,5 +57,15 @@ public class TheaterServiceImpl implements TheaterService {
     public String getTheaterName(Long id){
         Theater theater = theaterRepository.findById(id).orElseThrow();
         return theater.getName();
+    }
+
+    @Override
+    public Long countTheaters() {
+        return theaterRepository.count();
+    }
+
+    @Override
+    public List<TheaterResponse> getTheatersByCityId(Long cityId) {
+        return theaterMapper.toTheaterResponses(theaterRepository.findTheatersByCityId(cityId));
     }
 }

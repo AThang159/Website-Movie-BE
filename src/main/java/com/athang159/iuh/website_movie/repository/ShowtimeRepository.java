@@ -13,6 +13,6 @@ import java.util.UUID;
 @Repository
 public interface ShowtimeRepository extends JpaRepository<Showtime, UUID>, ShowtimeRepositoryCustom {
     List<Showtime> findByRoomIdAndShowDateOrderByStartTime(Long roomId, LocalDate showDate);
-
     List<Showtime> findByRoomIdAndShowDate(Long roomId, LocalDate showDate);
+    List<Showtime> findByShowDateBetween(LocalDate start, LocalDate end);
 }

@@ -69,43 +69,43 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         showtimeRepository.save(showtime);
     }
 
-    @Override
-    public List<TimeSlotResponse> getAvailableTimeSlots(Long roomId, LocalDate showDate, Long movieId) {
-        Movie movie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new RuntimeException("Movie not found"));
-
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new RuntimeException("Room not found"));
-
-        int durationMinutes = movie.getDuration();
-
-        List<Showtime> showtimes = showtimeRepository
-                .findByRoomIdAndShowDateOrderByStartTime(roomId, showDate);
-
-        List<TimeSlotResponse> availableSlots = new ArrayList<>();
-
-        LocalTime currentStart = OPEN_TIME;
-        LocalTime closingTime = CLOSE_TIME;
-
-        for (Showtime showtime : showtimes) {
-            LocalTime bookedStart = showtime.getStartTime();
-            LocalTime bookedEnd = showtime.getEndTime();
-
-            LocalTime potentialEnd = currentStart.plusMinutes(durationMinutes);
-
-            if (!potentialEnd.isAfter(bookedStart)) {
-                availableSlots.add(new TimeSlotResponse(currentStart, false));
-            }
-
-            currentStart = bookedEnd.plusMinutes(GAP_MINUTES);
-        }
-
-        if (!currentStart.plusMinutes(durationMinutes).isAfter(closingTime)) {
-            availableSlots.add(new TimeSlotResponse(currentStart, true));
-        }
-
-        return availableSlots;
-    }
+//    @Override
+//    public List<TimeSlotResponse> getAvailableTimeSlots(Long roomId, LocalDate showDate, Long movieId) {
+//        Movie movie = movieRepository.findById(movieId)
+//                .orElseThrow(() -> new RuntimeException("Movie not found"));
+//
+//        Room room = roomRepository.findById(roomId)
+//                .orElseThrow(() -> new RuntimeException("Room not found"));
+//
+//        int durationMinutes = movie.getDuration();
+//
+//        List<Showtime> showtimes = showtimeRepository
+//                .findByRoomIdAndShowDateOrderByStartTime(roomId, showDate);
+//
+//        List<TimeSlotResponse> availableSlots = new ArrayList<>();
+//
+//        LocalTime currentStart = OPEN_TIME;
+//        LocalTime closingTime = CLOSE_TIME;
+//
+//        for (Showtime showtime : showtimes) {
+//            LocalTime bookedStart = showtime.getStartTime();
+//            LocalTime bookedEnd = showtime.getEndTime();
+//
+//            LocalTime potentialEnd = currentStart.plusMinutes(durationMinutes);
+//
+//            if (!potentialEnd.isAfter(bookedStart)) {
+//                availableSlots.add(new TimeSlotResponse(currentStart, false));
+//            }
+//
+//            currentStart = bookedEnd.plusMinutes(GAP_MINUTES);
+//        }
+//
+//        if (!currentStart.plusMinutes(durationMinutes).isAfter(closingTime)) {
+//            availableSlots.add(new TimeSlotResponse(currentStart, true));
+//        }
+//
+//        return availableSlots;
+//    }
 
     @Override
     public List<ShowtimeResponse> findShowtimes(String movieId, LocalDate showDate, Long theaterId, Long roomId) {
@@ -120,5 +120,17 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         Showtime showtime = showtimeRepository.findById(id).orElseThrow();
         ShowtimeResponse showtimeResponse = showtimeMapper.toShowtimeResponse(showtime);
         return showtimeResponse;
+    }
+
+    @Override
+    public Long countShowtimes(){
+        return showtimeRepository.count();
+    }
+
+    @Override
+    public List<ShowtimeResponse> getTodayShowtimes() {
+        List<Showtime> showtimes = showtimeRepository.findByShowDateBetween(LocalDate.now(), LocalDate.now());
+        List<ShowtimeResponse> showtimeResponses = showtimeMapper.toShowtimeResponses(showtimes);
+        return showtimeResponses;
     }
 }

@@ -1,6 +1,7 @@
 package com.athang159.iuh.website_movie.controller;
 
 import com.athang159.iuh.website_movie.dto.response.RoomResponse;
+import com.athang159.iuh.website_movie.dto.response.TheaterDetailResponse;
 import com.athang159.iuh.website_movie.dto.response.TheaterResponse;
 import com.athang159.iuh.website_movie.service.TheaterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,13 @@ public class TheaterController {
     @Autowired
     TheaterService theaterService;
 
-    @GetMapping
-    public ResponseEntity<List<TheaterResponse>> getAllTheaters() {
-        return ResponseEntity.ok(theaterService.getAllTheaters());
-    }
+//    @GetMapping
+//    public ResponseEntity<List<TheaterResponse>> getAllTheaters() {
+//        return ResponseEntity.ok(theaterService.getAllTheaters());
+//    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TheaterResponse> getTheaterById(@PathVariable Long id) {
+    public ResponseEntity<TheaterDetailResponse> getTheaterById(@PathVariable Long id) {
         return ResponseEntity.ok(theaterService.getTheaterById(id));
     }
 
@@ -40,5 +41,10 @@ public class TheaterController {
     @GetMapping("{theaterId}/name")
     public ResponseEntity<String> getTheaterName(@PathVariable Long theaterId) {
         return ResponseEntity.ok(theaterService.getTheaterName(theaterId));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TheaterResponse>> getTheatersByCityId(@RequestParam Long cityId) {
+        return ResponseEntity.ok(theaterService.getTheatersByCityId(cityId));
     }
 }

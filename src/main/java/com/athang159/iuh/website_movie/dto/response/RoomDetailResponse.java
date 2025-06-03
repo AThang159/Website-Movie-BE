@@ -9,8 +9,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomResponse {
+public class RoomDetailResponse {
     private Long id;
     private String roomId;
     private String name;
+    private List<SeatResponse> seats;
 }
