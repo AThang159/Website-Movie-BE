@@ -23,4 +23,5 @@ public class BookingResponse {
     private Double amount;
     private String paymentMethod;
     private int ticketTotal;
+    private ShowtimeResponse showtime;
 }

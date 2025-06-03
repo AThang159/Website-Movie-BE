@@ -18,7 +18,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/dashboard")
 @CrossOrigin(origins = "*")
-public class DashboardOverviewController {
+public class DashboardController {
 
     @Autowired
     private MovieService movieService;
@@ -30,7 +30,7 @@ public class DashboardOverviewController {
     private BookingService bookingService;
 
     @GetMapping("/overview")
-    public ResponseEntity<Map<String, Long>> getTheater() {
+    public ResponseEntity<Map<String, Long>> getOverview() {
         Long countMovies = movieService.countMovies();
         Long countUsers = movieService.countMovies();
         Long countTheaters = theaterService.countTheaters();

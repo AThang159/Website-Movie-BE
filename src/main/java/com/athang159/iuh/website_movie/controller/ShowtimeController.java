@@ -17,7 +17,7 @@ import java.util.UUID;
 @RequestMapping("/api/showtimes")
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
-public class ShowtimeController {
+public class    ShowtimeController {
 
     @Autowired
     private ShowtimeService showtimeService;

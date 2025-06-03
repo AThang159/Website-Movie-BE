@@ -27,6 +27,7 @@ public class TheaterSeeder {
                         "Tầng 2 & 3, Toà nhà IMC, 62 Đường Trần Quang Khải, Phường Tân Định, Quận 1, TP. Hồ Chí Minh",
                         cityRepository.findByName("Hồ Chí Minh"),
                         "beta_logo.png",
+                        "Hoạt động",
                         chainRepository.findByName("Beta Cinemas")
                         );
                 theaterRepository.save(theater);
@@ -38,6 +39,7 @@ public class TheaterSeeder {
                         "645 Quang Trung, Phường 11, Quận Gò Vấp, Thành phố Hồ Chí Minh",
                         cityRepository.findByName("Hồ Chí Minh"),
                         "beta_logo.png",
+                        "Hoạt động",
                         chainRepository.findByName("Beta Cinemas")
                 );
                 theaterRepository.save(theater);
@@ -49,6 +51,7 @@ public class TheaterSeeder {
                         "135 Hai Bà Trưng, P. Bến Nghé, Q.1, Tp. Hồ Chí Minh",
                         cityRepository.findByName("Hồ Chí Minh"),
                         "beta_logo.png",
+                        "Hoạt động",
                         chainRepository.findByName("Cinestar")
                 );
                 theaterRepository.save(theater);
@@ -60,6 +63,7 @@ public class TheaterSeeder {
                         "271 Nguyễn Trãi, P. Nguyễn Cư Trinh, Q.1, Tp. Hồ Chí Minh",
                         cityRepository.findByName("Hồ Chí Minh"),
                         "beta_logo.png",
+                        "Dừng hoạt động",
                         chainRepository.findByName("Cinestar")
                 );
                 theaterRepository.save(theater);

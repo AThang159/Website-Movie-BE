@@ -42,16 +42,14 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<MovieResponse> getNowShowingMovies() {
-        LocalDate now = LocalDate.now();
-        List<Movie> movies = movieRepository.findByReleaseDateLessThanEqual(now);
+        List<Movie> movies = movieRepository.findByStatus("Đang chiếu");
         List<MovieResponse> movieResponses = movieMapper.toMovieResponses(movies);
         return movieResponses;
     }
 
     @Override
     public List<MovieResponse> getComingSoonMovies() {
-        LocalDate now = LocalDate.now();
-        List<Movie> movies = movieRepository.findByReleaseDateAfter(now);
+        List<Movie> movies = movieRepository.findByStatus("Sắp chiếu");
         List<MovieResponse> movieResponses = movieMapper.toMovieResponses(movies);
         return movieResponses;
     }

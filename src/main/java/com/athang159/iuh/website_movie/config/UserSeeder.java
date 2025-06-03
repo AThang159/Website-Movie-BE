@@ -14,8 +14,8 @@ public class UserSeeder {
 
     CommandLineRunner initUserSeeder() {
         return args -> {
-            userRepository.save(new User(null, "ADMIN", "ADMIN", "ADMIN"));
-            userRepository.save(new User(null, "USER", "USER", "USER"));
+            userRepository.save(new User(null, "ADMIN", "ADMIN", "ADMIN", "", "admin@gmail.com", "admin", "ADMIN", "Hoạt động"));
+            userRepository.save(new User(null, "USER", "USER", "USER", "", "user@gmail.com", "user", "USER", "Hoạt động"));
         };
     }
 }

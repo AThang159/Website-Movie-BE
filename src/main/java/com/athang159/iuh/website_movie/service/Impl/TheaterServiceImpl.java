@@ -66,6 +66,6 @@ public class TheaterServiceImpl implements TheaterService {
 
     @Override
     public List<TheaterResponse> getTheatersByCityId(Long cityId) {
-        return theaterMapper.toTheaterResponses(theaterRepository.findTheatersByCityId(cityId));
+        return theaterMapper.toTheaterResponses(theaterRepository.findTheatersByFilter(cityId));
     }
 }

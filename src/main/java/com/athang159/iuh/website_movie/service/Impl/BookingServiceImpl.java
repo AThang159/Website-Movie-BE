@@ -8,6 +8,7 @@ import com.athang159.iuh.website_movie.entity.Ticket;
 import com.athang159.iuh.website_movie.entity.SeatStatus;
 import com.athang159.iuh.website_movie.entity.User;
 import com.athang159.iuh.website_movie.mapper.BookingMapper;
+import com.athang159.iuh.website_movie.mapper.ShowtimeMapper;
 import com.athang159.iuh.website_movie.repository.BookingRepository;
 import com.athang159.iuh.website_movie.repository.SeatStatusRepository;
 import com.athang159.iuh.website_movie.repository.UserRepository;
@@ -31,6 +32,8 @@ public class BookingServiceImpl implements BookingService {
     private SeatStatusRepository seatStatusRepository;
     @Autowired
     private BookingMapper bookingMapper;
+    @Autowired
+    private ShowtimeMapper showtimeMapper;
 
     @Override
     public BookingDetailResponse createBooking(BookingCreationRequest bookingCreationRequest){

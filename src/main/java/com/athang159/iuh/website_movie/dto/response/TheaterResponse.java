@@ -15,4 +15,5 @@ public class TheaterResponse {
     private String name;
     private String address;
     private CityResponse city;
+    private String status;
 }

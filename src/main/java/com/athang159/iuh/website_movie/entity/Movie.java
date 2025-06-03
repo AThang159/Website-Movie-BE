@@ -29,5 +29,5 @@ public class Movie {
     private List<String> castList;
     private String trailerUrl;
     private Boolean featured;
-    private Boolean isComingSoon;
+    private String status;
 }

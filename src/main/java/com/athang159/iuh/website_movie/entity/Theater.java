@@ -16,30 +16,26 @@ public class Theater {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false)
     private String name;
-
     private String address;
-
+    private String logo;
+    private String status;
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "theater")
     private List<Room> rooms = new ArrayList<>();
-
-    private String logo;
-
     @ManyToOne
-    @JoinColumn(name = "theater_chain_id")
+    @JoinColumn(name = "chain_id")
     private Chain chain;
 
-    public Theater(String name, String address, City city, String logo, Chain chain) {
+    public Theater(String name, String address, City city, String logo, String status, Chain chain) {
         this.name = name;
         this.address = address;
         this.city = city;
         this.logo = logo;
+        this.status = status;
         this.chain = chain;
     }
 

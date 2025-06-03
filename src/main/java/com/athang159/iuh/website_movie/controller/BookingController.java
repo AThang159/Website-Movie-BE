@@ -32,5 +32,10 @@ public class BookingController {
     public ResponseEntity<BookingDetailResponse> getBooking(@PathVariable String bookingCode) {
         return ResponseEntity.ok(bookingService.getBookingByCode(bookingCode));
     }
+
+    @PostMapping
+    public ResponseEntity<BookingDetailResponse> createBooking(@RequestBody @Valid BookingCreationRequest request) {
+        return ResponseEntity.ok(bookingService.createBooking(request));
+    }
 }
 
