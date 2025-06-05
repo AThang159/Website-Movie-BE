@@ -15,7 +15,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/showtimes")
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class    ShowtimeController {
 

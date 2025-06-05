@@ -11,7 +11,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("api/seat-statuses")
-@CrossOrigin(origins = "*")
 public class SeatStatusController {
 
     @Autowired

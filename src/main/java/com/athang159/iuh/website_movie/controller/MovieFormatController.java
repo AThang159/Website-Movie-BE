@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/movie-formats")
-@CrossOrigin(origins = "*")
 public class MovieFormatController {
 
     @Autowired

@@ -1,8 +1,10 @@
 package com.athang159.iuh.website_movie.service.Impl;
 
 import com.athang159.iuh.website_movie.dto.request.LoginRequest;
+import com.athang159.iuh.website_movie.dto.response.JwtResponse;
 import com.athang159.iuh.website_movie.entity.User;
 import com.athang159.iuh.website_movie.repository.UserRepository;
+import com.athang159.iuh.website_movie.security.JwtUtil;
 import com.athang159.iuh.website_movie.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,9 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @Override
     public User register(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
@@ -24,20 +29,22 @@ public class AuthServiceImpl implements AuthService {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (user.getRole() == null) {
-            user.setRole("ROLE_USER");
+            user.setRole("USER");
         }
         return userRepository.save(user);
     }
 
     @Override
-    public ResponseEntity<String> login(LoginRequest request) {
+    public String login(LoginRequest request) {
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return ResponseEntity.ok("Login successful");
+            String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
+            return token;
         } else {
-            return ResponseEntity.badRequest().body("Invalid password");
+            return null;
         }
     }
 }
+
