@@ -1,5 +1,6 @@
 package com.athang159.iuh.website_movie.controller;
 
+import com.athang159.iuh.website_movie.dto.response.ApiResponse;
 import com.athang159.iuh.website_movie.dto.response.SeatStatusResponse;
 import com.athang159.iuh.website_movie.service.SeatStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ public class SeatStatusController {
     SeatStatusService seatStatusService;
 
     @GetMapping("/showtime/{showtimeId}")
-    public ResponseEntity<List<SeatStatusResponse>> getSeatsByShowtime(@PathVariable UUID showtimeId) {
+    public ResponseEntity<ApiResponse<List<SeatStatusResponse>>> getSeatsByShowtime(@PathVariable UUID showtimeId) {
         List<SeatStatusResponse> responses = seatStatusService.getAllSeatsByShowtime(showtimeId);
-        return ResponseEntity.ok(responses);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Success", responses));
     }
 }

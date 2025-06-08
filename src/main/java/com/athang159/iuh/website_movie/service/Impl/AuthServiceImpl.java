@@ -3,10 +3,12 @@ package com.athang159.iuh.website_movie.service.Impl;
 import com.athang159.iuh.website_movie.dto.request.LoginRequest;
 import com.athang159.iuh.website_movie.dto.response.JwtResponse;
 import com.athang159.iuh.website_movie.entity.User;
+import com.athang159.iuh.website_movie.exception.ApiException;
 import com.athang159.iuh.website_movie.repository.UserRepository;
 import com.athang159.iuh.website_movie.security.JwtUtil;
 import com.athang159.iuh.website_movie.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,14 +39,13 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String login(LoginRequest request) {
         User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ApiException("Username not found", HttpStatus.UNAUTHORIZED));
 
-        if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
-            return token;
-        } else {
-            return null;
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new ApiException("Invalid password", HttpStatus.UNAUTHORIZED);
         }
+
+        return jwtUtil.generateToken(user.getUsername(), user.getRole());
     }
 }
 

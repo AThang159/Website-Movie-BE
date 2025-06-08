@@ -1,6 +1,8 @@
 package com.athang159.iuh.website_movie.controller;
 
 import com.athang159.iuh.website_movie.dto.request.ShowtimeRequest;
+import com.athang159.iuh.website_movie.dto.response.ApiResponse;
+import com.athang159.iuh.website_movie.dto.response.ShowtimeDetailResponse;
 import com.athang159.iuh.website_movie.dto.response.ShowtimeResponse;
 import com.athang159.iuh.website_movie.service.ShowtimeService;
 import lombok.RequiredArgsConstructor;
@@ -30,29 +32,32 @@ public class    ShowtimeController {
 //    }
 
     @GetMapping("{id}")
-    public ResponseEntity<ShowtimeResponse> getShowtime(@PathVariable UUID id) {
-        return ResponseEntity.ok(showtimeService.findShowtime(id));
+    public ResponseEntity<ApiResponse<ShowtimeResponse>> getShowtime(@PathVariable UUID id) {
+        ShowtimeResponse showtimeResponse = showtimeService.findShowtime(id);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Success", showtimeResponse));
     }
 
     @GetMapping("/today")
-    public ResponseEntity<List<ShowtimeResponse>> getTodayShowtimes(){
-        return ResponseEntity.ok(showtimeService.getTodayShowtimes());
+    public ResponseEntity<ApiResponse<List<ShowtimeResponse>>> getTodayShowtimes(){
+        List<ShowtimeResponse> showtimeResponses = showtimeService.getTodayShowtimes();
+        return ResponseEntity.ok(new ApiResponse<>(true, "Success", showtimeResponses));
     }
 
     @GetMapping
-    public ResponseEntity<List<ShowtimeResponse>> getShowtimes(
+    public ResponseEntity<ApiResponse<List<ShowtimeResponse>>> getShowtimes(
             @RequestParam(required = false) Long theaterId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate showDate,
             @RequestParam(required = false) String movieId,
             @RequestParam(required = false) Long roomId
     ) {
         List<ShowtimeResponse> showtimes = showtimeService.findShowtimes(movieId, showDate, theaterId, roomId);
-        return ResponseEntity.ok(showtimes);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Success", showtimes));
     }
 
     @PostMapping
-    public ResponseEntity<String> createShowtime(@RequestBody ShowtimeRequest request) {
-        showtimeService.createShowtime(request);
-        return ResponseEntity.ok("Showtime created successfully");
+    public ResponseEntity<ApiResponse<ShowtimeDetailResponse>> createShowtime(@RequestBody ShowtimeRequest request) {
+        ShowtimeDetailResponse response = showtimeService.createShowtime(request);
+        return ResponseEntity.ok(ApiResponse.success("Tạo suất chiếu thành công", response));
     }
+
 }

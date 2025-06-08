@@ -3,17 +3,11 @@ package com.athang159.iuh.website_movie.controller;
 import com.athang159.iuh.website_movie.dto.response.*;
 import com.athang159.iuh.website_movie.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -31,47 +25,24 @@ public class AdminController {
     private ShowtimeService showtimeService;
 
     @GetMapping("/overview")
-    public ResponseEntity<Map<String, Long>> getOverview() {
-        Long countMovies = movieService.countMovies();
-        Long countUsers = movieService.countMovies();
-        Long countTheaters = theaterService.countTheaters();
-        Long countBookings = bookingService.countBookings();
-        Map<String, Long> map = new HashMap<>();
-        map.put("countMovies", countMovies);
-        map.put("countUsers", countUsers);
-        map.put("countTheaters", countTheaters);
-        map.put("countBookings", countBookings);
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
+    public ResponseEntity<?> getOverview() {
+        try {
+            Long countMovies = movieService.countMovies();
+            Long countUsers = userService.countUsers();
+            Long countTheaters = theaterService.countTheaters();
+            Long countBookings = bookingService.countBookings();
 
-    @GetMapping("/showtimes")
-    public ResponseEntity<List<ShowtimeResponse>> getShowtimes(
-            @RequestParam(required = false) Long theaterId,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate showDate,
-            @RequestParam(required = false) String movieId,
-            @RequestParam(required = false) Long roomId
-    ) {
-        List<ShowtimeResponse> showtimes = showtimeService.findShowtimes(movieId, showDate, theaterId, roomId);
-        return ResponseEntity.ok(showtimes);
-    }
+            Map<String, Long> data = new HashMap<>();
+            data.put("countMovies", countMovies);
+            data.put("countUsers", countUsers);
+            data.put("countTheaters", countTheaters);
+            data.put("countBookings", countBookings);
 
-    @GetMapping("/bookings")
-    public ResponseEntity<List<BookingResponse>> getAllBookings() {
-        return ResponseEntity.ok(bookingService.getAllBookings());
-    }
-
-    @GetMapping("/users")
-    public ResponseEntity<List<UserResponse>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
-    }
-
-    @GetMapping("/theaters")
-    public ResponseEntity<List<TheaterResponse>> getAllTheater(@RequestParam(required=false) Long cityId) {
-        return ResponseEntity.ok(theaterService.getTheatersByCityId(cityId));
-    }
-
-    @GetMapping("/movies")
-    public ResponseEntity<List<MovieResponse>> getAllMovies() {
-        return ResponseEntity.ok(movieService.getAllMovies());
+            ApiResponse<Map<String, Long>> response = new ApiResponse<>(true, "Overview fetched successfully", data);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            ApiResponse<?> response = new ApiResponse<>(false, "Failed to fetch overview: " + e.getMessage(), null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 }

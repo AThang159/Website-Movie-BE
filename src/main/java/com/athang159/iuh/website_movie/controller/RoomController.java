@@ -1,27 +1,28 @@
 package com.athang159.iuh.website_movie.controller;
 
+import com.athang159.iuh.website_movie.dto.response.ApiResponse;
 import com.athang159.iuh.website_movie.dto.response.RoomDetailResponse;
-import com.athang159.iuh.website_movie.dto.response.RoomResponse;
 import com.athang159.iuh.website_movie.service.RoomService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/rooms")
+@RequiredArgsConstructor
 public class RoomController {
 
-    @Autowired
-    RoomService roomService;
+    private final RoomService roomService;
 
     @GetMapping("/{roomId}")
-    public ResponseEntity<RoomDetailResponse> getRoomById(@PathVariable Long roomId) {
-        return ResponseEntity.ok(roomService.getRoomById(roomId));
+    public ResponseEntity<ApiResponse<RoomDetailResponse>> getRoomById(@PathVariable Long roomId) {
+        RoomDetailResponse room = roomService.getRoomById(roomId);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Success", room));
     }
 
-    @GetMapping("/{roomId}/name")
-    public ResponseEntity<String> getRoomByName(@PathVariable Long roomId) {
+    @GetMapping("/{roomId}/only-name")
+    public ResponseEntity<ApiResponse<String>> getRoomNameById(@PathVariable Long roomId) {
         String name = roomService.getRoomById(roomId).getName();
-        return ResponseEntity.ok(name);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Success", name));
     }
 }

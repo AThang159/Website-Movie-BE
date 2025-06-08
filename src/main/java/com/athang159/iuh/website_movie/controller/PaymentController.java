@@ -1,44 +1,40 @@
 package com.athang159.iuh.website_movie.controller;
 
 import com.athang159.iuh.website_movie.dto.request.BookingCreationRequest;
+import com.athang159.iuh.website_movie.dto.response.ApiResponse;
 import com.athang159.iuh.website_movie.dto.response.BookingDetailResponse;
-import com.athang159.iuh.website_movie.dto.response.BookingResponse;
-import com.athang159.iuh.website_movie.entity.Booking;
 import com.athang159.iuh.website_movie.service.BookingService;
 import com.athang159.iuh.website_movie.service.VnPayService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @RestController
 @RequestMapping("/api/payment")
+@RequiredArgsConstructor
 public class PaymentController {
 
-    @Autowired
-    private VnPayService vnPayService;
-    @Autowired
-    private BookingService bookingService;
+    private final VnPayService vnPayService;
+    private final BookingService bookingService;
+    @Value("${frontend.url}")
+    private String frontendUrl;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createPayment(@RequestBody BookingCreationRequest bookingCreationRequest) {
+    public ResponseEntity<ApiResponse<Map<String, String>>> createPayment(@RequestBody BookingCreationRequest bookingCreationRequest) {
         try {
-            System.out.println(bookingCreationRequest);
             long amount = bookingCreationRequest.getAmount().longValue();
 
-            ObjectMapper mapper = new ObjectMapper();
-
-            Map<String, Object> orderInfoMap = new HashMap<>();
+            Map<String, Object> orderInfoMap = new LinkedHashMap<>();
             orderInfoMap.put("userId", bookingCreationRequest.getUserId());
             orderInfoMap.put("customerFullName", bookingCreationRequest.getCustomerFullName());
             orderInfoMap.put("customerEmail", bookingCreationRequest.getCustomerEmail());
@@ -48,19 +44,16 @@ public class PaymentController {
             orderInfoMap.put("serviceFee", bookingCreationRequest.getServiceFee());
             orderInfoMap.put("paymentMethod", bookingCreationRequest.getPaymentMethod());
 
-            String orderInfo = "";
-            try {
-                orderInfo = mapper.writeValueAsString(orderInfoMap);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println(orderInfo);
+            ObjectMapper mapper = new ObjectMapper();
+            String orderInfo = mapper.writeValueAsString(orderInfoMap);
 
             String paymentUrl = vnPayService.createPaymentUrl(amount, orderInfo);
-            return ResponseEntity.ok(Collections.singletonMap("url", paymentUrl));
+            Map<String, String> response = Collections.singletonMap("url", paymentUrl);
+
+            return ResponseEntity.ok(new ApiResponse<>(true, "Payment URL created successfully", response));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse<>(false, "Payment creation failed: " + e.getMessage(), null));
         }
     }
 
@@ -74,54 +67,46 @@ public class PaymentController {
         Collections.sort(fieldNames);
 
         StringBuilder hashData = new StringBuilder();
-        String charset = StandardCharsets.UTF_8.name();
-        for (String fieldName : fieldNames) {
-            if (hashData.length() > 0) {
-                hashData.append('&');
+        try {
+            for (String fieldName : fieldNames) {
+                if (hashData.length() > 0) hashData.append('&');
+                hashData.append(fieldName).append('=').append(URLEncoder.encode(params.get(fieldName), StandardCharsets.UTF_8.name()));
             }
-            try {
-                hashData.append(fieldName).append('=').append(URLEncoder.encode(params.get(fieldName), charset));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                return new RedirectView("http://localhost:3000/dat-ve/error");
-            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return new RedirectView("http://localhost:3000/dat-ve/error");
         }
 
         String myHash = vnPayService.hmacSHA512(hashData.toString());
-
         String orderInfoJson = params.get("vnp_OrderInfo");
 
-        System.out.println(orderInfoJson);
-
-        String href = "http://localhost:3000";
-
         BookingCreationRequest bookingCreationRequest = null;
-        if (orderInfoJson != null && !orderInfoJson.isEmpty()) {
-            try {
+
+        try {
+            if (orderInfoJson != null && !orderInfoJson.isEmpty()) {
                 ObjectMapper mapper = new ObjectMapper();
-
                 Map<String, Object> orderInfoMap = mapper.readValue(orderInfoJson, new TypeReference<Map<String, Object>>() {});
-
                 bookingCreationRequest = mapToBookingCreationRequest(orderInfoMap);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return new RedirectView("http://localhost:3000/dat-ve/error");
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new RedirectView(frontendUrl + "/dat-ve/error");
         }
 
         if (myHash.equalsIgnoreCase(vnp_SecureHash)) {
             if ("00".equals(responseCode)) {
-                BookingDetailResponse bookingDetailResponse = null;
-                if (bookingCreationRequest != null) {
-                    bookingDetailResponse = bookingService.createBooking(bookingCreationRequest);
+                try {
+                    BookingDetailResponse bookingDetailResponse = bookingService.createBooking(bookingCreationRequest);
+                    return new RedirectView(frontendUrl + "/thong-tin-ve/" + bookingDetailResponse.getBookingCode());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return new RedirectView(frontendUrl + "/dat-ve/error");
                 }
-                return new RedirectView(href + "/thong-tin-ve/" + bookingDetailResponse.getBookingCode());
             } else {
-                return new RedirectView(href + "/dat-ve?status=fail");
+                return new RedirectView(frontendUrl + "/dat-ve?status=fail");
             }
         } else {
-            return new RedirectView(href + "/dat-ve?status=invalid");
+            return new RedirectView(frontendUrl + "/dat-ve?status=invalid");
         }
     }
 
@@ -141,9 +126,6 @@ public class PaymentController {
 
         Double totalPrice = orderInfoMap.get("totalPrice") == null ? null : Double.valueOf(orderInfoMap.get("totalPrice").toString());
         Double serviceFee = orderInfoMap.get("serviceFee") == null ? null : Double.valueOf(orderInfoMap.get("serviceFee").toString());
-
-        Double amount = null;
-
         String paymentMethod = (String) orderInfoMap.get("paymentMethod");
 
         return new BookingCreationRequest(

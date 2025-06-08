@@ -43,7 +43,7 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     private final int GAP_MINUTES = 10;
 
     @Override
-    public void createShowtime(ShowtimeRequest request) {
+    public ShowtimeDetailResponse createShowtime(ShowtimeRequest request) {
         Movie movie = movieRepository.findById(request.getMovieId())
                 .orElseThrow(() -> new RuntimeException("Movie not found"));
         Room room = roomRepository.findById(request.getRoomId())
@@ -67,6 +67,10 @@ public class ShowtimeServiceImpl implements ShowtimeService {
         showtime.setPrice(request.getPrice());
 
         showtimeRepository.save(showtime);
+
+        ShowtimeDetailResponse showtimeDetailResponse = showtimeMapper.toShowtimeDetailResponse(showtime);
+
+        return showtimeDetailResponse;
     }
 
 //    @Override

@@ -1,9 +1,9 @@
-// controller/MovieController.java
 package com.athang159.iuh.website_movie.controller;
 
+import com.athang159.iuh.website_movie.dto.response.ApiResponse;
 import com.athang159.iuh.website_movie.dto.response.MovieResponse;
 import com.athang159.iuh.website_movie.service.MovieService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,28 +11,32 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/movies")
+@RequiredArgsConstructor
 public class MovieController {
-    @Autowired
-    MovieService movieService;
+
+    private final MovieService movieService;
 
     @GetMapping
-    public ResponseEntity<List<MovieResponse>> getAllMovies() {
-        return ResponseEntity.ok(movieService.getAllMovies());
+    public ResponseEntity<ApiResponse<List<MovieResponse>>> getAllMovies() {
+        List<MovieResponse> movies = movieService.getAllMovies();
+        return ResponseEntity.ok(new ApiResponse<>(true, "Fetched all movies", movies));
     }
 
     @GetMapping("/{movieId}")
-    public ResponseEntity<MovieResponse> getMovieByMovieId(@PathVariable String movieId) {
-
-        return ResponseEntity.ok(movieService.getMovieByMovieId(movieId));
+    public ResponseEntity<ApiResponse<MovieResponse>> getMovieByMovieId(@PathVariable String movieId) {
+        MovieResponse movie = movieService.getMovieByMovieId(movieId);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Fetched movie", movie));
     }
 
     @GetMapping("/now-showing")
-    public ResponseEntity<List<MovieResponse>> getNowShowingMovies() {
-        return ResponseEntity.ok(movieService.getNowShowingMovies());
+    public ResponseEntity<ApiResponse<List<MovieResponse>>> getNowShowingMovies() {
+        List<MovieResponse> movies = movieService.getNowShowingMovies();
+        return ResponseEntity.ok(new ApiResponse<>(true, "Fetched now showing movies", movies));
     }
 
     @GetMapping("/coming-soon")
-    public ResponseEntity<List<MovieResponse>> getComingSoonMovies() {
-        return ResponseEntity.ok(movieService.getComingSoonMovies());
+    public ResponseEntity<ApiResponse<List<MovieResponse>>> getComingSoonMovies() {
+        List<MovieResponse> movies = movieService.getComingSoonMovies();
+        return ResponseEntity.ok(new ApiResponse<>(true, "Fetched coming soon movies", movies));
     }
 }

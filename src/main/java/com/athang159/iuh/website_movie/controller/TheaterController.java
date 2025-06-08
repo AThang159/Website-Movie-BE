@@ -1,5 +1,6 @@
 package com.athang159.iuh.website_movie.controller;
 
+import com.athang159.iuh.website_movie.dto.response.ApiResponse;
 import com.athang159.iuh.website_movie.dto.response.RoomResponse;
 import com.athang159.iuh.website_movie.dto.response.TheaterDetailResponse;
 import com.athang159.iuh.website_movie.dto.response.TheaterResponse;
@@ -13,37 +14,38 @@ import java.util.List;
 @RestController
 @RequestMapping("api/theaters")
 public class TheaterController {
+
     @Autowired
     TheaterService theaterService;
 
-//    @GetMapping
-//    public ResponseEntity<List<TheaterResponse>> getAllTheaters() {
-//        return ResponseEntity.ok(theaterService.getAllTheaters());
-//    }
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<TheaterResponse>>> getAllTheaters(
+            @RequestParam(required = false) Long cityId) {
+        List<TheaterResponse> theaters = theaterService.getTheatersByCityId(cityId);
+        return ResponseEntity.ok(ApiResponse.success("Danh sách rạp chiếu", theaters));
+    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TheaterDetailResponse> getTheaterById(@PathVariable Long id) {
-        return ResponseEntity.ok(theaterService.getTheaterById(id));
+    public ResponseEntity<ApiResponse<TheaterDetailResponse>> getTheaterById(@PathVariable Long id) {
+        TheaterDetailResponse response = theaterService.getTheaterById(id);
+        return ResponseEntity.ok(ApiResponse.success("Chi tiết rạp chiếu", response));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTheater(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> deleteTheater(@PathVariable Long id) {
         theaterService.deleteTheaterById(id);
-        return ResponseEntity.ok("Theater deleted successfully");
+        return ResponseEntity.ok(ApiResponse.success("Xóa rạp thành công", null));
     }
 
     @GetMapping("/{theaterId}/rooms")
-    public ResponseEntity<List<RoomResponse>> getAllRoomsByTheaterId(@PathVariable Long theaterId) {
-        return ResponseEntity.ok(theaterService.getAllRoomsByTheaterId(theaterId));
+    public ResponseEntity<ApiResponse<List<RoomResponse>>> getAllRoomsByTheaterId(@PathVariable Long theaterId) {
+        List<RoomResponse> rooms = theaterService.getAllRoomsByTheaterId(theaterId);
+        return ResponseEntity.ok(ApiResponse.success("Danh sách phòng chiếu của rạp", rooms));
     }
 
-    @GetMapping("{theaterId}/name")
-    public ResponseEntity<String> getTheaterName(@PathVariable Long theaterId) {
-        return ResponseEntity.ok(theaterService.getTheaterName(theaterId));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<TheaterResponse>> getAllTheater(@RequestParam(required=false) Long cityId) {
-        return ResponseEntity.ok(theaterService.getTheatersByCityId(cityId));
+    @GetMapping("/{theaterId}/name")
+    public ResponseEntity<ApiResponse<String>> getTheaterName(@PathVariable Long theaterId) {
+        String name = theaterService.getTheaterName(theaterId);
+        return ResponseEntity.ok(ApiResponse.success("Tên rạp", name));
     }
 }

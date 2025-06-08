@@ -14,4 +14,5 @@ public interface UserService {
     public UserResponse getUserById(Long id);
     public UserResponse updateUser(Long id, User updatedUser);
     public void deleteUser(Long id);
+    public Long countUsers();
 }
