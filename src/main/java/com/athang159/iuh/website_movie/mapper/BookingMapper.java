@@ -17,16 +17,18 @@ public abstract class BookingMapper {
     protected ShowtimeMapper showtimeMapper;
 
     @Mapping(target = "showtime", expression = "java(getShowtime(booking))")
+    @Mapping(target = "ticketTotal", expression = "java(booking.getTickets() != null ? booking.getTickets().size() : 0)")
     public abstract BookingResponse toBookingResponse(Booking booking);
 
     public abstract List<BookingResponse> toBookingResponses(List<Booking> bookings);
 
+    @Mapping(target = "showtime", expression = "java(getShowtime(booking))")
     public abstract BookingDetailResponse toBookingDetailResponse(Booking booking);
 
     protected ShowtimeResponse getShowtime(Booking booking) {
         if (booking == null || booking.getTickets() == null || booking.getTickets().isEmpty()) {
             return null;
         }
-        return showtimeMapper.toShowtimeResponse(booking.getTickets().get(0).getSeatStatus().getShowtime());
+        return showtimeMapper.toShowtimeResponse(booking.getTickets().get(0).getShowtime());
     }
 }

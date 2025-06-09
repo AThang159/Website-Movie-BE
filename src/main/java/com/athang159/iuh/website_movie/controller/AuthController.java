@@ -40,12 +40,28 @@ public class AuthController {
                 .domain(jwtProperties.getCookieDomain())
                 .path("/")
                 .maxAge(7 * 24 * 60 * 60)
-                .sameSite("None")
+                .sameSite(jwtProperties.getCookieSameSite())
                 .build();
 
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
         return ResponseEntity.ok(new ApiResponse<>(true, "Login successful", token));
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<ApiResponse<String>> logout(HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from("token", "")
+                .httpOnly(true)
+                .secure(jwtProperties.isCookieSecure())
+                .domain(jwtProperties.getCookieDomain())
+                .path("/")
+                .maxAge(0)
+                .sameSite(jwtProperties.getCookieSameSite())
+                .build();
+
+        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+        return ResponseEntity.ok(new ApiResponse<>(true, "Logout successful", null));
     }
 
 }

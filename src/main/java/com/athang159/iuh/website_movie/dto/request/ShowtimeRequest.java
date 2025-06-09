@@ -1,6 +1,7 @@
 package com.athang159.iuh.website_movie.dto.request;
 
-import com.athang159.iuh.website_movie.enums.MovieLanguageType;
+import com.athang159.iuh.website_movie.enums.FormatType;
+import com.athang159.iuh.website_movie.enums.LanguageType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,12 +13,12 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShowtimeRequest {
-    private Long movieId;
+    private String movieCode;
     private LocalDate showDate;
     private LocalTime startTime;
     private Long theaterId;
     private Long roomId;
-    private MovieLanguageType language;
-    private Long formatId;
+    private LanguageType language;
+    private FormatType format;
     private int price;
 }

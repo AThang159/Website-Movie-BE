@@ -1,6 +1,7 @@
 package com.athang159.iuh.website_movie.config;
 
 import com.athang159.iuh.website_movie.entity.Movie;
+import com.athang159.iuh.website_movie.enums.MovieStatus;
 import com.athang159.iuh.website_movie.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -31,7 +32,7 @@ public class MovieSeeder {
                     List.of(""),
                     "",
                     true,
-                    "Đang chiếu"));
+                    MovieStatus.NOW_SHOWING));
 
             movieRepository.save(new Movie(null,
                     "tham-tu-kien",
@@ -47,7 +48,7 @@ public class MovieSeeder {
                     List.of("Diễn viên A", "Diễn viên B"),
                     "https://youtube.com/trailer/ttk",
                     false,
-                    "Đang chiếu"));
+                    MovieStatus.NOW_SHOWING));
 
             movieRepository.save(new Movie(null,
                     "thunderbolts",
@@ -63,7 +64,7 @@ public class MovieSeeder {
                     List.of("Ngôi sao A", "Ngôi sao B"),
                     "https://youtube.com/trailer/thunderbolts",
                     false,
-                    "Sắp chiếu"));
+                    MovieStatus.NOW_SHOWING));
 
             movieRepository.save(new Movie(null,
                     "shin-cau-be",
@@ -79,7 +80,7 @@ public class MovieSeeder {
                     List.of("Shin", "Bố mẹ Shin"),
                     "",
                     false,
-                    "Đang chiếu"));
+                    MovieStatus.NOW_SHOWING));
 
             movieRepository.save(new Movie(null,
                     "dia-dao",
@@ -95,7 +96,7 @@ public class MovieSeeder {
                     List.of("Diễn viên C", "Diễn viên D"),
                     "https://youtube.com/trailer/diadao",
                     false,
-                    "Sắp chiếu"));
+                    MovieStatus.NOW_SHOWING));
 
             movieRepository.save(new Movie(null,
                     "khung-long-xanh",
@@ -111,7 +112,7 @@ public class MovieSeeder {
                     List.of("Dino", "Bé Gấu"),
                     "",
                     false,
-                    "Đang chiếu"));
+                    MovieStatus.NOW_SHOWING));
 
             movieRepository.save(new Movie(null,
                     "mat-danh-ke-toan-2",
@@ -127,7 +128,7 @@ public class MovieSeeder {
                     List.of("Ben Affleck"),
                     "https://youtube.com/trailer/accountant2",
                     false,
-                    "Dừng chiếu"));
+                    MovieStatus.COMING_SOON));
 
             movieRepository.save(new Movie(null,
                     "looney-tunes",
@@ -143,7 +144,7 @@ public class MovieSeeder {
                     List.of(),
                     "",
                     false,
-                    "Sắp chiếu"));
+                    MovieStatus.NOW_SHOWING));
 
             movieRepository.save(new Movie(null,
                     "chuyen-muong-thu-day-be-cuu-bay",
@@ -159,7 +160,7 @@ public class MovieSeeder {
                     List.of(),
                     "",
                     false,
-                    "Dừng chiếu"));
+                    MovieStatus.NOW_SHOWING));
         };
     }
 }

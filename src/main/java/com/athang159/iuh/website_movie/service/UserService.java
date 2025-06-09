@@ -13,6 +13,7 @@ public interface UserService {
     public List<UserResponse> getAllUsers();
     public UserResponse getUserById(Long id);
     public UserResponse updateUser(Long id, User updatedUser);
-    public void deleteUser(Long id);
+    public void softDeleteUser(String username);
     public Long countUsers();
+    public UserResponse getUserByUsername(String username);
 }

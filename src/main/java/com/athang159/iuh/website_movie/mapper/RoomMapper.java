@@ -10,8 +10,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = SeatMapper.class)
 public interface RoomMapper {
+    @Mapping(target = "totalSeats", expression = "java(room.getSeats() != null ? room.getSeats().size() : 0)")
     RoomResponse toRoomResponse(Room room);
     List<RoomResponse> toRoomResponse(List<Room> room);
-
     RoomDetailResponse toRoomDetailResponse(Room room);
 }

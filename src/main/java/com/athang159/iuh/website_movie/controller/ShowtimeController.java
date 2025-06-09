@@ -32,32 +32,23 @@ public class    ShowtimeController {
 //    }
 
     @GetMapping("{id}")
-    public ResponseEntity<ApiResponse<ShowtimeResponse>> getShowtime(@PathVariable UUID id) {
-        ShowtimeResponse showtimeResponse = showtimeService.findShowtime(id);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Success", showtimeResponse));
+    public ResponseEntity<ApiResponse<ShowtimeDetailResponse>> getShowtime(@PathVariable UUID id) {
+        ShowtimeDetailResponse showtimeDetailResponse = showtimeService.getShowtimeById(id);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Success", showtimeDetailResponse));
     }
 
-    @GetMapping("/today")
-    public ResponseEntity<ApiResponse<List<ShowtimeResponse>>> getTodayShowtimes(){
-        List<ShowtimeResponse> showtimeResponses = showtimeService.getTodayShowtimes();
-        return ResponseEntity.ok(new ApiResponse<>(true, "Success", showtimeResponses));
-    }
-
-    @GetMapping
-    public ResponseEntity<ApiResponse<List<ShowtimeResponse>>> getShowtimes(
-            @RequestParam(required = false) Long theaterId,
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<List<ShowtimeResponse>>> searchShowtimes(
+            @RequestParam(required = false) String movieCode,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate showDate,
-            @RequestParam(required = false) String movieId,
+            @RequestParam(required = false) Long theaterId,
             @RequestParam(required = false) Long roomId
     ) {
-        List<ShowtimeResponse> showtimes = showtimeService.findShowtimes(movieId, showDate, theaterId, roomId);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Success", showtimes));
+        List<ShowtimeResponse> responses = showtimeService.getShowtimesByFilter(movieCode, showDate, theaterId, roomId);
+        return ResponseEntity.ok(ApiResponse.success("Danh sách suất chiếu theo bộ lọc", responses));
     }
 
-    @PostMapping
-    public ResponseEntity<ApiResponse<ShowtimeDetailResponse>> createShowtime(@RequestBody ShowtimeRequest request) {
-        ShowtimeDetailResponse response = showtimeService.createShowtime(request);
-        return ResponseEntity.ok(ApiResponse.success("Tạo suất chiếu thành công", response));
-    }
+
+
 
 }

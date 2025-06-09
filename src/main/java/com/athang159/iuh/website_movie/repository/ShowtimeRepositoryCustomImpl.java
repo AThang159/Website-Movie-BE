@@ -18,7 +18,7 @@ public class ShowtimeRepositoryCustomImpl implements ShowtimeRepositoryCustom {
     private EntityManager em;
 
     @Override
-    public List<Showtime> findByFilters(String movieId, LocalDate showDate, Long theaterId, Long roomId) {
+    public List<Showtime> findByFilters(String movieCode, LocalDate showDate, Long theaterId, Long roomId) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Showtime> cq = cb.createQuery(Showtime.class);
         Root<Showtime> root = cq.from(Showtime.class);
@@ -37,8 +37,8 @@ public class ShowtimeRepositoryCustomImpl implements ShowtimeRepositoryCustom {
             predicates.add(cb.equal(root.get("theater").get("id"), theaterId));
         }
 
-        if (StringUtils.hasText(movieId)) {
-            predicates.add(cb.equal(root.get("movie").get("movieId"), movieId));
+        if (StringUtils.hasText(movieCode)) {
+            predicates.add(cb.equal(root.get("movie").get("movieCode"), movieCode));
         }
 
         cq.where(predicates.toArray(new Predicate[0]));

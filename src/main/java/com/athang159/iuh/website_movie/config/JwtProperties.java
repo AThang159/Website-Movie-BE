@@ -12,4 +12,5 @@ import org.springframework.context.annotation.Configuration;
 public class JwtProperties {
     private boolean cookieSecure;
     private String cookieDomain;
+    private String cookieSameSite;
 }

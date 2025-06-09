@@ -1,5 +1,6 @@
 package com.athang159.iuh.website_movie.dto.response;
 
+import com.athang159.iuh.website_movie.enums.MovieStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.List;
 @Data
 public class MovieResponse {
     private Long id;
-    private String movieId;
+    private String movieCode;
     private String title;
     private String englishTitle;
     private String posterUrl;
@@ -25,5 +26,5 @@ public class MovieResponse {
     private List<String> castList;
     private String trailerUrl;
     private Boolean featured;
-    private String status;
+    private MovieStatus status;
 }

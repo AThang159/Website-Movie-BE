@@ -1,6 +1,8 @@
 package com.athang159.iuh.website_movie.dto.response;
 
-import com.athang159.iuh.website_movie.enums.MovieLanguageType;
+import com.athang159.iuh.website_movie.enums.FormatType;
+import com.athang159.iuh.website_movie.enums.LanguageType;
+import com.athang159.iuh.website_movie.enums.ShowtimeStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,9 +23,9 @@ public class ShowtimeResponse {
     private Integer duration;
     private TheaterResponse theater;
     private RoomResponse room;
-    private MovieLanguageType language;
-    private MovieFormatResponse format;
+    private LanguageType language;
     private int price;
     private int seatsAvailable;
     private int seatsTotal;
+    private ShowtimeStatus status;
 }

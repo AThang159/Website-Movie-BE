@@ -1,6 +1,6 @@
 package com.athang159.iuh.website_movie.controller;
 
-import com.athang159.iuh.website_movie.dto.request.BookingCreationRequest;
+import com.athang159.iuh.website_movie.dto.request.BookingRequest;
 import com.athang159.iuh.website_movie.dto.response.ApiResponse;
 import com.athang159.iuh.website_movie.dto.response.BookingDetailResponse;
 import com.athang159.iuh.website_movie.service.BookingService;
@@ -30,19 +30,21 @@ public class PaymentController {
     private String frontendUrl;
 
     @PostMapping("/create")
-    public ResponseEntity<ApiResponse<Map<String, String>>> createPayment(@RequestBody BookingCreationRequest bookingCreationRequest) {
+    public ResponseEntity<ApiResponse<Map<String, String>>> createPayment(@RequestBody BookingRequest bookingRequest) {
         try {
-            long amount = bookingCreationRequest.getAmount().longValue();
+            long amount = bookingRequest.getAmount().longValue();
 
             Map<String, Object> orderInfoMap = new LinkedHashMap<>();
-            orderInfoMap.put("userId", bookingCreationRequest.getUserId());
-            orderInfoMap.put("customerFullName", bookingCreationRequest.getCustomerFullName());
-            orderInfoMap.put("customerEmail", bookingCreationRequest.getCustomerEmail());
-            orderInfoMap.put("customerPhone", bookingCreationRequest.getCustomerPhone());
-            orderInfoMap.put("seatStatusIds", bookingCreationRequest.getSeatStatusIds());
-            orderInfoMap.put("totalPrice", bookingCreationRequest.getTotalPrice());
-            orderInfoMap.put("serviceFee", bookingCreationRequest.getServiceFee());
-            orderInfoMap.put("paymentMethod", bookingCreationRequest.getPaymentMethod());
+            orderInfoMap.put("userId", bookingRequest.getUserId());
+            orderInfoMap.put("customerFullName", bookingRequest.getCustomerFullName());
+            orderInfoMap.put("customerEmail", bookingRequest.getCustomerEmail());
+            orderInfoMap.put("customerPhone", bookingRequest.getCustomerPhone());
+            orderInfoMap.put("seatSelectIds", bookingRequest.getSeatSelectedIds());
+            orderInfoMap.put("totalPrice", bookingRequest.getTotalPrice());
+            orderInfoMap.put("serviceFee", bookingRequest.getServiceFee());
+            orderInfoMap.put("paymentMethod", bookingRequest.getPaymentMethod());
+            orderInfoMap.put("amount", amount);
+            orderInfoMap.put("showtimeId", bookingRequest.getShowtimeId());
 
             ObjectMapper mapper = new ObjectMapper();
             String orderInfo = mapper.writeValueAsString(orderInfoMap);
@@ -79,24 +81,25 @@ public class PaymentController {
 
         String myHash = vnPayService.hmacSHA512(hashData.toString());
         String orderInfoJson = params.get("vnp_OrderInfo");
-
-        BookingCreationRequest bookingCreationRequest = null;
+        BookingRequest bookingRequest = new BookingRequest();
 
         try {
             if (orderInfoJson != null && !orderInfoJson.isEmpty()) {
+                String decodedOrderInfo = java.net.URLDecoder.decode(orderInfoJson, StandardCharsets.UTF_8.name()); // 👈 DECODE HERE
                 ObjectMapper mapper = new ObjectMapper();
-                Map<String, Object> orderInfoMap = mapper.readValue(orderInfoJson, new TypeReference<Map<String, Object>>() {});
-                bookingCreationRequest = mapToBookingCreationRequest(orderInfoMap);
+                Map<String, Object> orderInfoMap = mapper.readValue(decodedOrderInfo, new TypeReference<Map<String, Object>>() {});
+                bookingRequest = mapToBookingCreationRequest(orderInfoMap);
             }
         } catch (Exception e) {
             e.printStackTrace();
             return new RedirectView(frontendUrl + "/dat-ve/error");
         }
 
+
         if (myHash.equalsIgnoreCase(vnp_SecureHash)) {
             if ("00".equals(responseCode)) {
                 try {
-                    BookingDetailResponse bookingDetailResponse = bookingService.createBooking(bookingCreationRequest);
+                    BookingDetailResponse bookingDetailResponse = bookingService.createBooking(bookingRequest);
                     return new RedirectView(frontendUrl + "/thong-tin-ve/" + bookingDetailResponse.getBookingCode());
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -110,33 +113,36 @@ public class PaymentController {
         }
     }
 
-    private BookingCreationRequest mapToBookingCreationRequest(Map<String, Object> orderInfoMap) {
+    private BookingRequest mapToBookingCreationRequest(Map<String, Object> orderInfoMap) {
         Long userId = orderInfoMap.get("userId") == null ? null : Long.valueOf(orderInfoMap.get("userId").toString());
         String customerFullName = (String) orderInfoMap.get("customerFullName");
         String customerEmail = (String) orderInfoMap.get("customerEmail");
         String customerPhone = (String) orderInfoMap.get("customerPhone");
 
-        List<Long> seatStatusIds = new ArrayList<>();
-        Object seatStatusObj = orderInfoMap.get("seatStatusIds");
-        if (seatStatusObj instanceof List<?>) {
-            for (Object obj : (List<?>) seatStatusObj) {
-                seatStatusIds.add(Long.valueOf(obj.toString()));
+        List<Long> seatSelectIds = new ArrayList<>();
+        Object seatSelectObj = orderInfoMap.get("seatSelectIds");
+        if (seatSelectObj instanceof List<?>) {
+            for (Object obj : (List<?>) seatSelectObj) {
+                seatSelectIds.add(Long.valueOf(obj.toString()));
             }
         }
 
         Double totalPrice = orderInfoMap.get("totalPrice") == null ? null : Double.valueOf(orderInfoMap.get("totalPrice").toString());
         Double serviceFee = orderInfoMap.get("serviceFee") == null ? null : Double.valueOf(orderInfoMap.get("serviceFee").toString());
         String paymentMethod = (String) orderInfoMap.get("paymentMethod");
+        Double amount = Double.valueOf(orderInfoMap.get("amount").toString());
+        UUID showtimeId = orderInfoMap.get("showtimeId") == null ? null : UUID.fromString(orderInfoMap.get("showtimeId").toString());
 
-        return new BookingCreationRequest(
+        return new BookingRequest(
                 userId,
+                showtimeId,
                 customerFullName,
                 customerEmail,
                 customerPhone,
-                seatStatusIds,
+                seatSelectIds,
                 totalPrice,
                 serviceFee,
-                totalPrice + serviceFee,
+                amount,
                 paymentMethod
         );
     }

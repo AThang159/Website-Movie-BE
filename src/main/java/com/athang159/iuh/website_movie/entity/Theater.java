@@ -1,5 +1,7 @@
 package com.athang159.iuh.website_movie.entity;
 
+import com.athang159.iuh.website_movie.enums.FormatType;
+import com.athang159.iuh.website_movie.enums.TheaterStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,24 +21,22 @@ public class Theater {
     @Column(nullable = false)
     private String name;
     private String address;
-    private String logo;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private FormatType format;
+    @Enumerated(EnumType.STRING)
+    private TheaterStatus status;
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "theater")
     private List<Room> rooms = new ArrayList<>();
-    @ManyToOne
-    @JoinColumn(name = "chain_id")
-    private Chain chain;
 
-    public Theater(String name, String address, City city, String logo, String status, Chain chain) {
+    public Theater(String name, String address, City city, FormatType format, TheaterStatus status) {
         this.name = name;
         this.address = address;
+        this.format = format;
         this.city = city;
-        this.logo = logo;
         this.status = status;
-        this.chain = chain;
     }
 
 }

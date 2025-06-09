@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TicketResponse {
     private Long id;
-    private SeatStatusResponse seatStatus;
+    private SeatResponse seat;
 }

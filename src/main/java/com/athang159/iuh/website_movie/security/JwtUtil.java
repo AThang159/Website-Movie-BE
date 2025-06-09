@@ -1,5 +1,6 @@
 package com.athang159.iuh.website_movie.security;
 
+import com.athang159.iuh.website_movie.enums.RoleType;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -18,10 +19,10 @@ public class JwtUtil {
     @Value("${jwt.expirationMs}")
     private int jwtExpirationMs;
 
-    public String generateToken(String username, String role) {
+    public String generateToken(String username, RoleType role) {
         return JWT.create()
                 .withSubject(username)
-                .withClaim("role", role)
+                .withClaim("role", role.toString())
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .sign(Algorithm.HMAC256(jwtSecret));

@@ -3,6 +3,7 @@ package com.athang159.iuh.website_movie.service.Impl;
 import com.athang159.iuh.website_movie.dto.request.LoginRequest;
 import com.athang159.iuh.website_movie.dto.response.JwtResponse;
 import com.athang159.iuh.website_movie.entity.User;
+import com.athang159.iuh.website_movie.enums.RoleType;
 import com.athang159.iuh.website_movie.exception.ApiException;
 import com.athang159.iuh.website_movie.repository.UserRepository;
 import com.athang159.iuh.website_movie.security.JwtUtil;
@@ -31,7 +32,7 @@ public class AuthServiceImpl implements AuthService {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (user.getRole() == null) {
-            user.setRole("USER");
+            user.setRole(RoleType.USER);
         }
         return userRepository.save(user);
     }

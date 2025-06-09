@@ -1,5 +1,6 @@
 package com.athang159.iuh.website_movie.dto.response;
 
+import com.athang159.iuh.website_movie.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,5 +16,5 @@ public class UserResponse {
     private String email;
     private String phone;
     private String role;
-    private String status;
+    private UserStatus status;
 }

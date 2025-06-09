@@ -1,4 +1,4 @@
-package com.athang159.iuh.website_movie.controller;
+package com.athang159.iuh.website_movie.controller.admin;
 
 import com.athang159.iuh.website_movie.dto.response.*;
 import com.athang159.iuh.website_movie.service.*;
@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/admin")
-public class AdminController {
+@RequestMapping("/api/admin/dashboard")
+public class DashboardController {
     @Autowired
     private MovieService movieService;
     @Autowired
@@ -21,8 +21,6 @@ public class AdminController {
     private TheaterService theaterService;
     @Autowired
     private BookingService bookingService;
-    @Autowired
-    private ShowtimeService showtimeService;
 
     @GetMapping("/overview")
     public ResponseEntity<?> getOverview() {

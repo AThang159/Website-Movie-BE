@@ -1,5 +1,6 @@
 package com.athang159.iuh.website_movie.controller;
 
+import com.athang159.iuh.website_movie.dto.request.MovieRequest;
 import com.athang159.iuh.website_movie.dto.response.ApiResponse;
 import com.athang159.iuh.website_movie.dto.response.MovieResponse;
 import com.athang159.iuh.website_movie.service.MovieService;
@@ -16,15 +17,9 @@ public class MovieController {
 
     private final MovieService movieService;
 
-    @GetMapping
-    public ResponseEntity<ApiResponse<List<MovieResponse>>> getAllMovies() {
-        List<MovieResponse> movies = movieService.getAllMovies();
-        return ResponseEntity.ok(new ApiResponse<>(true, "Fetched all movies", movies));
-    }
-
     @GetMapping("/{movieId}")
     public ResponseEntity<ApiResponse<MovieResponse>> getMovieByMovieId(@PathVariable String movieId) {
-        MovieResponse movie = movieService.getMovieByMovieId(movieId);
+        MovieResponse movie = movieService.getMovieByMovieCode(movieId);
         return ResponseEntity.ok(new ApiResponse<>(true, "Fetched movie", movie));
     }
 

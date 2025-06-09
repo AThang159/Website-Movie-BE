@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ShowtimeService {
-//    List<TimeSlotResponse> getAvailableTimeSlots(Long roomId, LocalDate showDate, Long movieId);
     ShowtimeDetailResponse createShowtime(ShowtimeRequest request);
-    List<ShowtimeResponse> findShowtimes(String movieId, LocalDate showDate, Long theaterId, Long roomId);
-    ShowtimeResponse findShowtime(UUID id);
-    Long countShowtimes();
+    List<ShowtimeResponse> getShowtimes();
+    ShowtimeDetailResponse getShowtimeById(UUID id);
     List<ShowtimeResponse> getTodayShowtimes();
+    ShowtimeDetailResponse updateShowtime(UUID id, ShowtimeRequest request);
+    ShowtimeDetailResponse softDeleteShowtime(UUID id);
+
+    List<ShowtimeResponse> getShowtimesByFilter(String movieId, LocalDate showDate, Long theaterId, Long roomId);
 }

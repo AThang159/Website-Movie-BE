@@ -6,6 +6,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ShowtimeRepositoryCustom {
-    List<Showtime> findByFilters(String movieId, LocalDate showDate, Long theaterId, Long roomId);
+    List<Showtime> findByFilters(String movieCode, LocalDate showDate, Long theaterId, Long roomId);
 }
 

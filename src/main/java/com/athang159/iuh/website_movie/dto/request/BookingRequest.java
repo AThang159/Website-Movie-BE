@@ -5,18 +5,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookingCreationRequest {
+public class BookingRequest {
     private Long userId;
+
+    private UUID showtimeId;
 
     private String customerFullName;
     private String customerEmail;
     private String customerPhone;
 
-    private List<Long> seatStatusIds;
+    private List<Long> seatSelectedIds;
 
     private Double totalPrice;
     private Double serviceFee;

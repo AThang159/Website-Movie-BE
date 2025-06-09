@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RoomResponse {
     private Long id;
-    private String roomId;
+    private String roomCode;
     private String name;
+    private int totalSeats;
 }

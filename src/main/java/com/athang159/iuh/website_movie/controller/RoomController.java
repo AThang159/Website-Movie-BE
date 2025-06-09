@@ -19,10 +19,4 @@ public class RoomController {
         RoomDetailResponse room = roomService.getRoomById(roomId);
         return ResponseEntity.ok(new ApiResponse<>(true, "Success", room));
     }
-
-    @GetMapping("/{roomId}/only-name")
-    public ResponseEntity<ApiResponse<String>> getRoomNameById(@PathVariable Long roomId) {
-        String name = roomService.getRoomById(roomId).getName();
-        return ResponseEntity.ok(new ApiResponse<>(true, "Success", name));
-    }
 }

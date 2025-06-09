@@ -12,9 +12,9 @@ import java.util.List;
         uses ={
             MovieMapper.class,
             TheaterMapper.class,
-            MovieFormatMapper.class,
-            SeatStatusMapper.class,
-            RoomMapper.class}
+            RoomMapper.class,
+            TicketMapper.class
+        }
 )
 public interface ShowtimeMapper {
     @Mapping(expression = "java(showtime.getMovie().getDuration())", target = "duration")
@@ -30,10 +30,9 @@ public interface ShowtimeMapper {
     }
 
     default int getSeatsAvailable(Showtime showtime) {
-        if (showtime.getSeatStatuses() == null) return 0;
-        return (int) showtime.getSeatStatuses().stream()
-                .filter(seatStatus -> seatStatus.getTicket() == null)
-                .count();
+        if (showtime.getTickets() == null) return showtime.getRoom().getSeats().size();
+        return showtime.getRoom().getSeats().size() - showtime.getTickets().size();
     }
+
 
 }

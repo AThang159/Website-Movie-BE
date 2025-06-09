@@ -1,6 +1,6 @@
-// model/Movie.java
 package com.athang159.iuh.website_movie.entity;
 
+import com.athang159.iuh.website_movie.enums.MovieStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,7 +16,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String movieId;
+    private String movieCode;
     private String title;
     private String englishTitle;
     private String posterUrl;
@@ -29,5 +29,6 @@ public class Movie {
     private List<String> castList;
     private String trailerUrl;
     private Boolean featured;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private MovieStatus status;
 }

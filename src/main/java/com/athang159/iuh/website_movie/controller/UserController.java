@@ -17,12 +17,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUsers() {
-        List<UserResponse> users = userService.getAllUsers();
-        return ResponseEntity.ok(ApiResponse.success("Danh sách người dùng", users));
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<UserResponse>> getUserById(@PathVariable Long id) {
         UserResponse user = userService.getUserById(id);
@@ -36,11 +30,5 @@ public class UserController {
     ) {
         UserResponse updatedUser = userService.updateUser(id, user);
         return ResponseEntity.ok(ApiResponse.success("Cập nhật người dùng thành công", updatedUser));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return ResponseEntity.ok(ApiResponse.success("Xóa người dùng thành công", null));
     }
 }

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -18,8 +20,12 @@ public class Ticket {
     @JoinColumn(name = "booking_id")
     private Booking booking;
 
-    @OneToOne
-    @JoinColumn(name = "seat_status_id")
-    private SeatStatus seatStatus;
+    @ManyToOne
+    @JoinColumn(name = "showtime_id")
+    private Showtime showtime;
+
+    @ManyToOne
+    @JoinColumn(name = "seat_id")
+    private Seat seat;
 }
 

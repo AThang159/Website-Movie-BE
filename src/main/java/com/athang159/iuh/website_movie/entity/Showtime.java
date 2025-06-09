@@ -1,6 +1,8 @@
 package com.athang159.iuh.website_movie.entity;
 
-import com.athang159.iuh.website_movie.enums.MovieLanguageType;
+import com.athang159.iuh.website_movie.enums.FormatType;
+import com.athang159.iuh.website_movie.enums.LanguageType;
+import com.athang159.iuh.website_movie.enums.ShowtimeStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,14 +38,8 @@ public class Showtime {
 
     private LocalTime endTime;
 
-    @ManyToOne
-    @JoinColumn(name = "format_id")
-    private MovieFormat format;
-
     @Enumerated(EnumType.STRING)
-    private MovieLanguageType language;
-
-    private int price;
+    private LanguageType language;
 
     @ManyToOne
     @JoinColumn(name = "theater_id")
@@ -54,25 +50,29 @@ public class Showtime {
     private Room room;
 
     @OneToMany(mappedBy = "showtime")
-    private List<SeatStatus> seatStatuses;
+    private List<Ticket> tickets;
+
+    private int price;
+
+    @Enumerated(EnumType.STRING)
+    private ShowtimeStatus status;
 
     public Showtime(Movie movie,
                     LocalDate showDate,
                     LocalTime startTime,
-                    MovieFormat format,
-                    MovieLanguageType language,
+                    LanguageType language,
                     int price,
                     Theater theater,
-                    Room room) {
+                    Room room,
+                    ShowtimeStatus status) {
         this.movie = movie;
         this.showDate = showDate;
         this.startTime = startTime;
-        this.endTime = startTime.plusMinutes(movie.getDuration());
-        this.format = format;
         this.language = language;
         this.price = price;
         this.theater = theater;
         this.room = room;
+        this.status = status;
     }
 }
 

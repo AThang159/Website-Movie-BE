@@ -1,13 +1,14 @@
 package com.athang159.iuh.website_movie.service.Impl;
 
-import com.athang159.iuh.website_movie.dto.response.RoomResponse;
+import com.athang159.iuh.website_movie.dto.request.TheaterRequest;
 import com.athang159.iuh.website_movie.dto.response.TheaterDetailResponse;
 import com.athang159.iuh.website_movie.dto.response.TheaterResponse;
-import com.athang159.iuh.website_movie.entity.Room;
+import com.athang159.iuh.website_movie.entity.City;
 import com.athang159.iuh.website_movie.entity.Theater;
-import com.athang159.iuh.website_movie.mapper.RoomMapper;
+import com.athang159.iuh.website_movie.enums.TheaterStatus;
+import com.athang159.iuh.website_movie.exception.ResourceNotFoundException;
 import com.athang159.iuh.website_movie.mapper.TheaterMapper;
-import com.athang159.iuh.website_movie.repository.RoomRepository;
+import com.athang159.iuh.website_movie.repository.CityRepository;
 import com.athang159.iuh.website_movie.repository.TheaterRepository;
 import com.athang159.iuh.website_movie.service.TheaterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,60 @@ public class TheaterServiceImpl implements TheaterService {
     @Autowired
     TheaterMapper theaterMapper;
     @Autowired
-    private RoomRepository roomRepository;
-    @Autowired
-    private RoomMapper roomMapper;
+    private CityRepository cityRepository;
+
+    @Override
+    public TheaterDetailResponse addTheater(TheaterRequest theaterRequest) {
+        Theater theater = new Theater();
+
+        City city = cityRepository.findByName(theaterRequest.getCity());
+        if (city == null) {
+            city = new City();
+            city.setName(theaterRequest.getCity());
+            city = cityRepository.save(city);
+        }
+
+        theater.setName(theaterRequest.getName());
+        theater.setAddress(theaterRequest.getAddress());
+        theater.setCity(city);
+        theater.setStatus(theaterRequest.getStatus());
+        Theater savedTheater = theaterRepository.save(theater);
+
+        return theaterMapper.toTheaterDetailResponse(savedTheater);
+    }
+
+    @Override
+    public TheaterDetailResponse softDeleteTheater(Long id) {
+        Theater theater = theaterRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Not found theater Id:" + id));
+        theater.setStatus(TheaterStatus.INACTIVE);
+        theaterRepository.save(theater);
+        TheaterDetailResponse theaterDetailResponse = theaterMapper.toTheaterDetailResponse(theater);
+        return theaterDetailResponse;
+    }
+
+    @Override
+    public TheaterDetailResponse updateTheater(Long id, TheaterRequest theaterRequest){
+        Theater theater = theaterRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Not found theater Id:" + id));
+
+        City city = cityRepository.findByName(theaterRequest.getCity());
+        if (city == null) {
+            city = new City();
+            city.setName(theaterRequest.getCity());
+            city = cityRepository.save(city);
+        }
+
+        theater.setName(theaterRequest.getName());
+        theater.setAddress(theaterRequest.getAddress());
+        theater.setFormat(theaterRequest.getFormat());
+        theater.setCity(city);
+        theater.setStatus(theaterRequest.getStatus());
+        theaterRepository.save(theater);
+
+        TheaterDetailResponse theaterDetailResponse = theaterMapper.toTheaterDetailResponse(theater);
+        return theaterDetailResponse;
+    }
 
     @Override
     public TheaterDetailResponse getTheaterById(Long id) {
@@ -42,24 +94,6 @@ public class TheaterServiceImpl implements TheaterService {
     }
 
     @Override
-    public void deleteTheaterById(Long id) {
-        theaterRepository.deleteById(id);
-    }
-
-    @Override
-    public List<RoomResponse> getAllRoomsByTheaterId(Long id) {
-        List<Room> rooms = roomRepository.findByTheaterId(id);
-        List<RoomResponse> roomResponses = roomMapper.toRoomResponse(rooms);
-        return roomResponses;
-    }
-
-    @Override
-    public String getTheaterName(Long id){
-        Theater theater = theaterRepository.findById(id).orElseThrow();
-        return theater.getName();
-    }
-
-    @Override
     public Long countTheaters() {
         return theaterRepository.count();
     }
@@ -68,4 +102,7 @@ public class TheaterServiceImpl implements TheaterService {
     public List<TheaterResponse> getTheatersByCityId(Long cityId) {
         return theaterMapper.toTheaterResponses(theaterRepository.findTheatersByFilter(cityId));
     }
+
+
+
 }

@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring" , uses = SeatStatusMapper.class)
+@Mapper(componentModel = "spring", uses = SeatMapper.class)
 public interface TicketMapper {
     TicketResponse toTicketResponse(Ticket ticket);
     List<TicketResponse> toTicketResponseList(List<Ticket> tickets);

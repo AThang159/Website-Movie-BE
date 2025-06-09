@@ -14,10 +14,6 @@ public class DatabaseSeeder {
     @Autowired
     private CitySeeder citySeeder;
     @Autowired
-    private MovieFormatSeeder movieFormatSeeder;
-    @Autowired
-    private ChainSeeder chainSeeder;
-    @Autowired
     private RoomSeeder roomSeeder;
     @Autowired
     private MovieSeeder movieSeeder;
@@ -27,20 +23,15 @@ public class DatabaseSeeder {
     private ShowtimeSeeder showtimeSeeder;
     @Autowired
     private UserSeeder userSeeder;
-    @Autowired
-    private SeatStatusSeeder seatStatusSeeder;
 
     @Bean
     CommandLineRunner runAllSeeders() {
         return args -> {
             citySeeder.initCitySeeder().run(args);
-            movieFormatSeeder.initMovieFormatSeeder().run(args);
-            chainSeeder.initChainSeeder().run(args);
             theaterSeeder.initTheaterSeeder().run(args);
             roomSeeder.initRoomSeeder().run(args);
             movieSeeder.initMovieSeeder().run(args);
             showtimeSeeder.initShowtimeSeeder().run(args);
-            seatStatusSeeder.initSeatStatusSeeder().run(args);
             userSeeder.initUserSeeder().run(args);
         };
     }

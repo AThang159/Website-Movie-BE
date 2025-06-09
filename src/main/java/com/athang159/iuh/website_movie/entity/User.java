@@ -1,9 +1,8 @@
 package com.athang159.iuh.website_movie.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.athang159.iuh.website_movie.enums.RoleType;
+import com.athang159.iuh.website_movie.enums.UserStatus;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +22,8 @@ public class User {
     private String lastName;
     private String email;
     private String phone;
-    private String role;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private RoleType role;
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 }

@@ -10,6 +10,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {CityMapper.class, RoomMapper.class})
 public interface TheaterMapper {
+    @Mapping(target = "totalRooms", expression = "java(theater.getRooms() != null ? theater.getRooms().size() : 0)")
     TheaterResponse toTheaterResponse(Theater theater);
     List<TheaterResponse> toTheaterResponses(List<Theater> theaters);
     TheaterDetailResponse toTheaterDetailResponse(Theater theater);

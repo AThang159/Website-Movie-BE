@@ -2,6 +2,8 @@ package com.athang159.iuh.website_movie.service.Impl;
 
 import com.athang159.iuh.website_movie.dto.response.UserResponse;
 import com.athang159.iuh.website_movie.entity.User;
+import com.athang159.iuh.website_movie.enums.UserStatus;
+import com.athang159.iuh.website_movie.exception.ResourceNotFoundException;
 import com.athang159.iuh.website_movie.mapper.UserMapper;
 import com.athang159.iuh.website_movie.repository.UserRepository;
 import com.athang159.iuh.website_movie.service.UserService;
@@ -20,17 +22,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
-    @Override
-    public List<UserResponse> getAllUsers(){
-        List<User> users = userRepository.findAll();
-        List<UserResponse> userResponses = userMapper.toUsersResponse(users);
-        return userResponses;
-    }
 
-    @Override
-    public UserResponse getUserById(Long id){
-        return userMapper.toUserResponse(userRepository.findById(id).orElse(null));
-    };
 
     @Override
     public UserResponse updateUser(Long id, User updatedUser) {
@@ -45,17 +37,39 @@ public class UserServiceImpl implements UserService {
             user.setStatus(updatedUser.getStatus());
             userRepository.save(user);
             return user;
-        }).orElseThrow(() -> new RuntimeException("User not found with id " + id));
+        }).orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
         return userMapper.toUserResponse(userUpdate);
     }
 
     @Override
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public void softDeleteUser(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("No user found with username " + username));
+        user.setStatus(UserStatus.LOCKED);
     }
+
+    @Override
+    public List<UserResponse> getAllUsers(){
+        List<User> users = userRepository.findAll();
+        List<UserResponse> userResponses = userMapper.toUsersResponse(users);
+        return userResponses;
+    }
+
+    @Override
+    public UserResponse getUserById(Long id){
+        return userMapper.toUserResponse(userRepository.findById(id).orElse(null));
+    };
 
     @Override
     public Long countUsers(){
         return userRepository.count();
+    }
+
+    @Override
+    public UserResponse getUserByUsername(String username){
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("No user found with username " + username));
+
+        return userMapper.toUserResponse(user);
     }
 }

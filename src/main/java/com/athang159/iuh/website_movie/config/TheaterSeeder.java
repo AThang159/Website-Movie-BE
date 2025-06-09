@@ -1,8 +1,9 @@
 package com.athang159.iuh.website_movie.config;
 
 import com.athang159.iuh.website_movie.entity.Theater;
+import com.athang159.iuh.website_movie.enums.FormatType;
+import com.athang159.iuh.website_movie.enums.TheaterStatus;
 import com.athang159.iuh.website_movie.repository.CityRepository;
-import com.athang159.iuh.website_movie.repository.ChainRepository;
 import com.athang159.iuh.website_movie.repository.TheaterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,8 +16,6 @@ public class TheaterSeeder {
     TheaterRepository theaterRepository;
     @Autowired
     CityRepository cityRepository;
-    @Autowired
-    ChainRepository chainRepository;
 
     CommandLineRunner initTheaterSeeder() {
         return args -> {
@@ -26,9 +25,8 @@ public class TheaterSeeder {
                         "Beta Trần Quang Khải",
                         "Tầng 2 & 3, Toà nhà IMC, 62 Đường Trần Quang Khải, Phường Tân Định, Quận 1, TP. Hồ Chí Minh",
                         cityRepository.findByName("Hồ Chí Minh"),
-                        "beta_logo.png",
-                        "Hoạt động",
-                        chainRepository.findByName("Beta Cinemas")
+                        FormatType.FORMAT_3D,
+                        TheaterStatus.ACTIVE
                         );
                 theaterRepository.save(theater);
             }
@@ -38,9 +36,8 @@ public class TheaterSeeder {
                         "Beta Quang Trung",
                         "645 Quang Trung, Phường 11, Quận Gò Vấp, Thành phố Hồ Chí Minh",
                         cityRepository.findByName("Hồ Chí Minh"),
-                        "beta_logo.png",
-                        "Hoạt động",
-                        chainRepository.findByName("Beta Cinemas")
+                        FormatType.FORMAT_3D,
+                        TheaterStatus.ACTIVE
                 );
                 theaterRepository.save(theater);
             }
@@ -50,9 +47,8 @@ public class TheaterSeeder {
                         "Cinestar Hai Bà Trưng",
                         "135 Hai Bà Trưng, P. Bến Nghé, Q.1, Tp. Hồ Chí Minh",
                         cityRepository.findByName("Hồ Chí Minh"),
-                        "beta_logo.png",
-                        "Hoạt động",
-                        chainRepository.findByName("Cinestar")
+                        FormatType.FORMAT_3D,
+                        TheaterStatus.ACTIVE
                 );
                 theaterRepository.save(theater);
             }
@@ -62,9 +58,8 @@ public class TheaterSeeder {
                         "Cinestar Quốc Thanh",
                         "271 Nguyễn Trãi, P. Nguyễn Cư Trinh, Q.1, Tp. Hồ Chí Minh",
                         cityRepository.findByName("Hồ Chí Minh"),
-                        "beta_logo.png",
-                        "Dừng hoạt động",
-                        chainRepository.findByName("Cinestar")
+                        FormatType.FORMAT_3D,
+                        TheaterStatus.INACTIVE
                 );
                 theaterRepository.save(theater);
             }

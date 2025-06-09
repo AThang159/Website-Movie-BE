@@ -1,12 +1,14 @@
 package com.athang159.iuh.website_movie.dto.response;
 
-import com.athang159.iuh.website_movie.enums.MovieLanguageType;
+import com.athang159.iuh.website_movie.enums.FormatType;
+import com.athang159.iuh.website_movie.enums.LanguageType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -20,8 +22,9 @@ public class ShowtimeDetailResponse {
     private LocalTime endTime;
     private Integer duration;
     private TheaterResponse theater;
-    private RoomResponse room;
-    private MovieLanguageType language;
-    private MovieFormatResponse format;
+    private RoomDetailResponse room;
+    private LanguageType language;
     private int price;
+    private List<TicketResponse> tickets;
+    private String status;
 }
