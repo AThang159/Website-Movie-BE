@@ -6,11 +6,10 @@ import com.athang159.iuh.website_movie.dto.response.BookingResponse;
 import com.athang159.iuh.website_movie.entity.*;
 import com.athang159.iuh.website_movie.exception.ResourceNotFoundException;
 import com.athang159.iuh.website_movie.mapper.BookingMapper;
-import com.athang159.iuh.website_movie.repository.BookingRepository;
-import com.athang159.iuh.website_movie.repository.SeatRepository;
-import com.athang159.iuh.website_movie.repository.ShowtimeRepository;
-import com.athang159.iuh.website_movie.repository.UserRepository;
+import com.athang159.iuh.website_movie.repository.*;
 import com.athang159.iuh.website_movie.service.BookingService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +31,10 @@ public class BookingServiceImpl implements BookingService {
     private SeatRepository seatRepository;
     @Autowired
     private ShowtimeRepository showtimeRepository;
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired
+    private TempBookingRepository tempBookingRepository;
 
     @Override
     public BookingDetailResponse createBooking(BookingRequest bookingRequest){
@@ -91,5 +94,38 @@ public class BookingServiceImpl implements BookingService {
     public Long countBookings(){
         Long count = bookingRepository.count();
         return count;
+    }
+
+    @Override
+    public List<BookingResponse> getBookingsByUsername(String username){
+        List<Booking> bookings = bookingRepository.findBookingByUser_Username(username);
+        return bookingMapper.toBookingResponses(bookings);
+    }
+
+    @Override
+    public UUID createTempBooking(BookingRequest request) {
+        try {
+            TempBooking tempBooking = new TempBooking();
+            String json = objectMapper.writeValueAsString(request);
+            tempBooking.setData(json);
+            tempBooking.setCreatedAt(LocalDateTime.now());
+
+            tempBookingRepository.save(tempBooking);
+            return tempBooking.getId();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Cannot serialize BookingRequest", e);
+        }
+    }
+
+    @Override
+    public BookingRequest getTempBooking(UUID tempBookingId) {
+        TempBooking tempBooking = tempBookingRepository.findById(tempBookingId)
+                .orElseThrow(() -> new RuntimeException("Temp booking not found"));
+
+        try {
+            return objectMapper.readValue(tempBooking.getData(), BookingRequest.class);
+        } catch (Exception e) {
+            throw new RuntimeException("Error parsing booking data", e);
+        }
     }
 }

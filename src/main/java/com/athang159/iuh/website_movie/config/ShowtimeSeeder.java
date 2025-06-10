@@ -30,7 +30,7 @@ public class ShowtimeSeeder {
             showtimeRepository.save(new Showtime(
                 movieRepository.findByMovieCode("lat-mat-8")
                         .orElseThrow(() -> new ResourceNotFoundException("Not found movie ID")),
-                LocalDate.of(2025, 6, 6),
+                    LocalDate.of(2025, 6, 10),
                 LocalTime.of(10, 0),
                 LanguageType.LONG_TIENG_VIET,
                 50000,
@@ -42,7 +42,7 @@ public class ShowtimeSeeder {
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieCode("lat-mat-8")
                             .orElseThrow(() -> new RuntimeException("Not found movie ID")),
-                    LocalDate.of(2025, 6, 6),
+                    LocalDate.of(2025, 6, 10),
                     LocalTime.of(12, 0),
                     LanguageType.LONG_TIENG_VIET,
                     50000,
@@ -63,7 +63,7 @@ public class ShowtimeSeeder {
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieCode("shin-cau-be")
                             .orElseThrow(() -> new RuntimeException("Not found movie ID")),
-                    LocalDate.of(2025, 6, 6),
+                    LocalDate.of(2025, 6, 10),
                     LocalTime.of(16, 0),
                     LanguageType.LONG_TIENG_VIET,
                     65000,
@@ -74,7 +74,7 @@ public class ShowtimeSeeder {
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieCode("lat-mat-8")
                             .orElseThrow(() -> new RuntimeException("Not found movie ID")),
-                    LocalDate.of(2025, 6, 6),
+                    LocalDate.of(2025, 6, 10),
                     LocalTime.of(18, 0),
                     LanguageType.LONG_TIENG_VIET,
                     80000,
@@ -85,7 +85,7 @@ public class ShowtimeSeeder {
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieCode("tham-tu-kien")
                             .orElseThrow(() -> new RuntimeException("Not found movie ID")),
-                    LocalDate.of(2025, 6, 6),
+                    LocalDate.of(2025, 6, 10),
                     LocalTime.of(20, 0),
                     LanguageType.LONG_TIENG_VIET,
                     90000,
@@ -96,7 +96,7 @@ public class ShowtimeSeeder {
             showtimeRepository.save(new Showtime(
                     movieRepository.findByMovieCode("shin-cau-be")
                             .orElseThrow(() -> new RuntimeException("Not found movie ID")),
-                    LocalDate.of(2025, 6, 9),
+                    LocalDate.of(2025, 6, 10),
                     LocalTime.of(12, 0),
                     LanguageType.LONG_TIENG_VIET,
                     50000,

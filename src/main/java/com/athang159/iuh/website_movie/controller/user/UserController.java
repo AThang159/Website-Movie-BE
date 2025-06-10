@@ -6,6 +6,7 @@ import com.athang159.iuh.website_movie.security.JwtUtil;
 import com.athang159.iuh.website_movie.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +22,9 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/profile")
-    public ResponseEntity<ApiResponse<UserResponse>> getUserProfile(@CookieValue("token") String token) {
-        String username = jwtUtil.extractUsername(token);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Fetch user successlly", userService.getUserByUsername(username)));
+    public ResponseEntity<ApiResponse<UserResponse>> getUserProfile(Authentication authentication) {
+        String username = authentication.getName();
+        UserResponse user = userService.getUserByUsername(username);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Fetch user successfully", user));
     }
-
 }
