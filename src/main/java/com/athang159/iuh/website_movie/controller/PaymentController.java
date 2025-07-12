@@ -6,6 +6,8 @@ import com.athang159.iuh.website_movie.dto.response.BookingDetailResponse;
 import com.athang159.iuh.website_movie.service.BookingService;
 import com.athang159.iuh.website_movie.service.VnPayService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/payment")
+@Tag(name = "Payment Controller", description = "Handle VNPay payment operations")
 @RequiredArgsConstructor
 public class PaymentController {
 
@@ -29,6 +32,7 @@ public class PaymentController {
     private String frontendUrl;
 
     @PostMapping("/create")
+    @Operation(summary = "Create VNPay payment URL", description = "Generate a payment URL for the given booking request")
     public ResponseEntity<ApiResponse<Map<String, String>>> createPayment(@RequestBody BookingRequest bookingRequest) {
         try {
             UUID tempBookingId = bookingService.createTempBooking(bookingRequest);
@@ -47,6 +51,7 @@ public class PaymentController {
     }
 
     @GetMapping("/vnpay-return")
+    @Operation(summary = "VNPay return endpoint", description = "Handle VNPay return response and redirect to frontend")
     public RedirectView vnpayReturn(@RequestParam Map<String, String> params) {
         String vnp_SecureHash = params.remove("vnp_SecureHash");
         params.remove("vnp_SecureHashType");

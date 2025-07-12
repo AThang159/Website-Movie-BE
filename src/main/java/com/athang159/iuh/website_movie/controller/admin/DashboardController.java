@@ -7,11 +7,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin/dashboard")
+@Tag(name = "Admin - Dashboard", description = "APIs for dashboard statistics and overview (Admin)")
 public class DashboardController {
     @Autowired
     private MovieService movieService;
@@ -23,6 +27,10 @@ public class DashboardController {
     private BookingService bookingService;
 
     @GetMapping("/overview")
+    @Operation(
+            summary = "Get dashboard overview",
+            description = "Returns total counts of movies, users, theaters, and bookings for the admin dashboard"
+    )
     public ResponseEntity<?> getOverview() {
         try {
             Long countMovies = movieService.countMovies();

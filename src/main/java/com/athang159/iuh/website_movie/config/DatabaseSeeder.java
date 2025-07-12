@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
-@Configuration
-@Order(0)  // chạy đầu tiên
+//@Configuration
+//@Order(0)  // chạy đầu tiên
 public class DatabaseSeeder {
 
     @Autowired
